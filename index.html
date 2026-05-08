@@ -3,69 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>겜세일러 | 스팀 할인 게임 추천</title>
-    <meta name="description" content="스팀 할인 게임을 장르, 사양, 멀티 여부, 할인율 기준으로 추천해주는 사이트. 할인 주기와 구매 판단까지 한 번에 확인하세요.">
-    <meta name="keywords" content="스팀 할인, 스팀 게임 추천, 저사양 게임 추천, 협동게임 추천, 할인 게임, 게임 세일">
-    <meta property="og:title" content="겜세일러 | 스팀 할인 게임 추천">
-    <meta property="og:description" content="지금 살만한 스팀 할인 게임을 추천하고 할인 주기까지 보여줍니다.">
-    <meta property="og:type" content="website">
+    <title>겜세일러 | 실시간 스팀 할인 게임 추천</title>
+    <meta name="description" content="스팀 현재 가격을 실시간으로 불러와 할인율, 역대 최저가, 할인 주기를 같이 보여주는 게임 추천 사이트입니다.">
+    <meta name="keywords" content="스팀 할인, 스팀 게임 추천, 저사양 게임 추천, 협동게임 추천, 할인 주기, 역대 최저가">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav class="nav">
-        <a class="logo" href="index.html">
-            <span class="logo-mark">G</span>
-            겜세일러
-        </a>
+        <a class="logo" href="index.html"><span class="logo-mark">G</span>겜세일러</a>
         <div class="nav-links">
             <a href="#deals">할인게임</a>
             <a href="#recommend">추천</a>
-            <a href="#guide">가이드</a>
+            <a href="#guide">연동방식</a>
         </div>
     </nav>
 
     <main>
         <section class="hero">
             <div class="hero-copy">
-                <p class="eyebrow">Steam Sale Recommendation</p>
-                <h1>지금 살만한 <span>스팀 할인 게임</span>만 골라보기</h1>
+                <p class="eyebrow">Live Steam Deal Tracker</p>
+                <h1>실시간 가격으로 보는 <span>스팀 할인 추천</span></h1>
                 <p class="hero-text">
-                    할인율만 보지 말고, 역대 최저가와 할인 주기를 같이 보고 구매 타이밍을 판단하세요.
+                    Steam 현재 가격을 서버 함수에서 불러오고, IsThereAnyDeal API 키가 있으면 역대 최저가와 할인 주기까지 계산합니다.
                 </p>
                 <div class="hero-actions">
-                    <a class="btn primary" href="#deals">할인 게임 보기</a>
-                    <button class="btn ghost" id="randomPickBtn">랜덤 추천</button>
+                    <a class="btn primary" href="#deals">실시간 목록 보기</a>
+                    <button class="btn ghost" id="refreshBtn">새로고침</button>
                 </div>
+                <p class="sync-note" id="syncNote">실시간 데이터를 불러오는 중...</p>
             </div>
             <aside class="hero-card">
                 <div class="hero-card-top">
-                    <span>오늘의 추천 기준</span>
-                    <strong id="todayDate">-</strong>
+                    <span>데이터 기준</span>
+                    <strong id="lastUpdated">-</strong>
                 </div>
                 <div class="score-row">
                     <div>
-                        <span class="label">최소 할인율</span>
-                        <strong>40%</strong>
+                        <span class="label">연동 상태</span>
+                        <strong id="liveState">대기</strong>
                     </div>
                     <div>
-                        <span class="label">추천 데이터</span>
+                        <span class="label">게임 수</span>
                         <strong id="gameCount">0개</strong>
                     </div>
                 </div>
                 <p class="hero-note">
-                    현재 버전은 직접 선별한 게임 데이터와 Steam 상점 링크 기반입니다. 가격은 사이트 운영 시 갱신 방식으로 확장 가능합니다.
+                    가격은 서버 함수 응답 기준으로 최대 1시간 캐시됩니다. 브라우저에 샘플 가격을 박아두지 않았습니다.
                 </p>
             </aside>
         </section>
 
-        <section class="ad-box">
-            광고 영역
-        </section>
+        <section class="ad-box">광고 영역</section>
 
         <section class="toolbar" id="deals">
             <div class="section-head">
                 <p class="eyebrow">Deals</p>
-                <h2>할인 게임 목록</h2>
+                <h2>실시간 할인 게임 목록</h2>
             </div>
 
             <div class="search-wrap">
@@ -73,9 +66,7 @@
             </div>
 
             <div class="filters">
-                <select id="genreFilter">
-                    <option value="all">전체 장르</option>
-                </select>
+                <select id="genreFilter"><option value="all">전체 장르</option></select>
                 <select id="modeFilter">
                     <option value="all">전체 플레이</option>
                     <option value="싱글">싱글</option>
@@ -101,22 +92,10 @@
         </section>
 
         <section class="summary-grid">
-            <article class="summary-card">
-                <span>현재 할인 중</span>
-                <strong id="saleCount">0</strong>
-            </article>
-            <article class="summary-card">
-                <span>70% 이상 할인</span>
-                <strong id="bigSaleCount">0</strong>
-            </article>
-            <article class="summary-card">
-                <span>저사양 게임</span>
-                <strong id="lowSpecCount">0</strong>
-            </article>
-            <article class="summary-card">
-                <span>협동 게임</span>
-                <strong id="coopCount">0</strong>
-            </article>
+            <article class="summary-card"><span>가격 연동 성공</span><strong id="syncedCount">0</strong></article>
+            <article class="summary-card"><span>현재 할인 중</span><strong id="saleCount">0</strong></article>
+            <article class="summary-card"><span>70% 이상 할인</span><strong id="bigSaleCount">0</strong></article>
+            <article class="summary-card"><span>협동 게임</span><strong id="coopCount">0</strong></article>
         </section>
 
         <section class="game-grid" id="gameGrid"></section>
@@ -132,42 +111,30 @@
                 <h2>목적별 빠른 추천</h2>
             </div>
             <div class="recommend-grid">
-                <button class="recommend-card" data-preset="coop">
-                    <strong>친구랑 할 게임</strong>
-                    <span>협동, 멀티 위주</span>
-                </button>
-                <button class="recommend-card" data-preset="lowSpec">
-                    <strong>저사양 게임</strong>
-                    <span>노트북도 부담 적게</span>
-                </button>
-                <button class="recommend-card" data-preset="bigSale">
-                    <strong>큰 할인 게임</strong>
-                    <span>70% 이상 할인</span>
-                </button>
-                <button class="recommend-card" data-preset="roguelike">
-                    <strong>반복 플레이</strong>
-                    <span>로그라이크, 장기플레이</span>
-                </button>
+                <button class="recommend-card" data-preset="coop"><strong>친구랑 할 게임</strong><span>협동, 멀티 위주</span></button>
+                <button class="recommend-card" data-preset="lowSpec"><strong>저사양 게임</strong><span>노트북도 부담 적게</span></button>
+                <button class="recommend-card" data-preset="bigSale"><strong>큰 할인 게임</strong><span>70% 이상 할인</span></button>
+                <button class="recommend-card" data-preset="roguelike"><strong>반복 플레이</strong><span>로그라이크, 장기플레이</span></button>
             </div>
         </section>
 
         <section class="guide" id="guide">
             <div class="section-head">
-                <p class="eyebrow">Guide</p>
-                <h2>구매 판단 기준</h2>
+                <p class="eyebrow">Live API</p>
+                <h2>연동 방식</h2>
             </div>
             <div class="guide-grid">
                 <article>
-                    <h3>지금 사도 좋음</h3>
-                    <p>할인율이 높고 현재가가 역대 최저가에 가까운 경우입니다.</p>
+                    <h3>Steam 현재가</h3>
+                    <p>서버 함수가 Steam Store 데이터를 호출해서 현재가, 정가, 할인율을 가져옵니다.</p>
                 </article>
                 <article>
-                    <h3>괜찮은 할인</h3>
-                    <p>평소보다 싸지만 역대 최저가와 차이가 있는 경우입니다.</p>
+                    <h3>1시간 캐시</h3>
+                    <p>서버 응답은 1시간 캐시되므로 사용자가 몰려도 API 요청이 과하게 늘지 않습니다.</p>
                 </article>
                 <article>
-                    <h3>기다리기</h3>
-                    <p>할인율이 낮거나 할인 주기가 짧아 다음 세일을 기다릴 만한 경우입니다.</p>
+                    <h3>할인 주기</h3>
+                    <p>ITAD_API_KEY를 설정하면 IsThereAnyDeal 가격 기록으로 평균 할인 간격을 계산합니다.</p>
                 </article>
             </div>
         </section>
@@ -182,8 +149,8 @@
     </div>
 
     <footer class="footer">
-        <p>겜세일러는 구매 판단을 돕는 추천 사이트입니다. 실제 가격과 할인 종료일은 Steam 상점에서 최종 확인하세요.</p>
-        <p>Made for portfolio · Static Web Project</p>
+        <p>실제 구매 전 Steam 상점 가격을 최종 확인하세요. 일부 게임은 연령 등급이 있을 수 있습니다.</p>
+        <p>Static Frontend + Netlify Functions</p>
     </footer>
 
     <script src="main.js"></script>

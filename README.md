@@ -1,37 +1,52 @@
-# 겜세일러 - Steam 할인 게임 추천 사이트
+# 겜세일러 Live
 
-정적 웹사이트 형태의 스팀 할인 게임 추천 프로젝트입니다.
+샘플 가격을 박아둔 버전이 아니라, 서버 함수에서 실시간 가격을 가져오는 버전입니다.
 
-## 포함 파일
+## 실행
 
-- index.html
-- style.css
-- main.js
-- games.json
+```bash
+npm install
+npm run dev
+```
 
-## 주요 기능
+접속:
 
-- 게임 검색
-- 장르 필터
-- 싱글/협동/멀티 필터
-- 사양 필터
-- 할인율/가격/추천순 정렬
-- 할인 주기 계산
-- 역대 최저가 차이 계산
-- 구매 판단 표시
-- 게임 상세 모달
-- Steam 상점 이동
+```txt
+http://localhost:8888
+```
 
-## 실행 방법
+## 배포
 
-VS Code에서 Live Server로 index.html을 열면 됩니다.
+Netlify에 그대로 올리면 됩니다.
 
-그냥 파일 더블클릭으로도 대부분 보이지만, games.json을 불러오려면 Live Server 방식이 더 안전합니다.
+## 환경 변수
 
-## 다음 단계
+Steam 현재 가격만 볼 경우 환경 변수 없이 동작합니다.
 
-1. games.json에 게임 추가
-2. 광고 코드 삽입
-3. Firebase Analytics 추가
-4. Netlify/Firebase Hosting/GitHub Pages 배포
-5. 가격 자동 갱신용 서버리스 함수 추가
+할인 주기, 역대 최저가까지 보려면 Netlify 환경 변수에 추가하세요.
+
+```txt
+ITAD_API_KEY=본인 IsThereAnyDeal API 키
+ITAD_COUNTRY=KR
+STEAM_COUNTRY=kr
+STEAM_LANGUAGE=korean
+```
+
+## 구조
+
+```txt
+index.html
+style.css
+main.js
+games.json
+netlify/functions/live-games.js
+netlify.toml
+package.json
+```
+
+## 데이터 방식
+
+- games.json: 게임 선정, 태그, 사양, 설명만 저장
+- Steam Store: 현재 가격, 정가, 할인율, 할인 종료일 실시간 조회
+- IsThereAnyDeal: API 키가 있으면 역대 최저가와 가격 기록 조회
+- Cache-Control: 1시간 캐시
