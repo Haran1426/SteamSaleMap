@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>겜세일러 | 스팀 할인 게임 추천</title>
+    <meta name="description" content="스팀 할인 게임을 장르, 사양, 멀티 여부, 할인율 기준으로 추천해주는 사이트. 할인 주기와 구매 판단까지 한 번에 확인하세요.">
+    <meta name="keywords" content="스팀 할인, 스팀 게임 추천, 저사양 게임 추천, 협동게임 추천, 할인 게임, 게임 세일">
+    <meta property="og:title" content="겜세일러 | 스팀 할인 게임 추천">
+    <meta property="og:description" content="지금 살만한 스팀 할인 게임을 추천하고 할인 주기까지 보여줍니다.">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav">
+        <a class="logo" href="index.html">
+            <span class="logo-mark">G</span>
+            겜세일러
+        </a>
+        <div class="nav-links">
+            <a href="#deals">할인게임</a>
+            <a href="#recommend">추천</a>
+            <a href="#guide">가이드</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Steam Sale Recommendation</p>
+                <h1>지금 살만한 <span>스팀 할인 게임</span>만 골라보기</h1>
+                <p class="hero-text">
+                    할인율만 보지 말고, 역대 최저가와 할인 주기를 같이 보고 구매 타이밍을 판단하세요.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn primary" href="#deals">할인 게임 보기</a>
+                    <button class="btn ghost" id="randomPickBtn">랜덤 추천</button>
+                </div>
+            </div>
+            <aside class="hero-card">
+                <div class="hero-card-top">
+                    <span>오늘의 추천 기준</span>
+                    <strong id="todayDate">-</strong>
+                </div>
+                <div class="score-row">
+                    <div>
+                        <span class="label">최소 할인율</span>
+                        <strong>40%</strong>
+                    </div>
+                    <div>
+                        <span class="label">추천 데이터</span>
+                        <strong id="gameCount">0개</strong>
+                    </div>
+                </div>
+                <p class="hero-note">
+                    현재 버전은 직접 선별한 게임 데이터와 Steam 상점 링크 기반입니다. 가격은 사이트 운영 시 갱신 방식으로 확장 가능합니다.
+                </p>
+            </aside>
+        </section>
+
+        <section class="ad-box">
+            광고 영역
+        </section>
+
+        <section class="toolbar" id="deals">
+            <div class="section-head">
+                <p class="eyebrow">Deals</p>
+                <h2>할인 게임 목록</h2>
+            </div>
+
+            <div class="search-wrap">
+                <input id="searchInput" type="search" placeholder="게임 이름, 태그 검색 예: 협동, 저사양, 로그라이크">
+            </div>
+
+            <div class="filters">
+                <select id="genreFilter">
+                    <option value="all">전체 장르</option>
+                </select>
+                <select id="modeFilter">
+                    <option value="all">전체 플레이</option>
+                    <option value="싱글">싱글</option>
+                    <option value="협동">협동</option>
+                    <option value="멀티">멀티</option>
+                </select>
+                <select id="specFilter">
+                    <option value="all">전체 사양</option>
+                    <option value="저사양">저사양</option>
+                    <option value="중사양">중사양</option>
+                    <option value="고사양">고사양</option>
+                </select>
+                <select id="sortSelect">
+                    <option value="dealScore">추천순</option>
+                    <option value="discount">할인율 높은순</option>
+                    <option value="priceAsc">가격 낮은순</option>
+                    <option value="cycle">할인 주기 짧은순</option>
+                    <option value="title">이름순</option>
+                </select>
+            </div>
+
+            <div class="quick-tags" id="quickTags"></div>
+        </section>
+
+        <section class="summary-grid">
+            <article class="summary-card">
+                <span>현재 할인 중</span>
+                <strong id="saleCount">0</strong>
+            </article>
+            <article class="summary-card">
+                <span>70% 이상 할인</span>
+                <strong id="bigSaleCount">0</strong>
+            </article>
+            <article class="summary-card">
+                <span>저사양 게임</span>
+                <strong id="lowSpecCount">0</strong>
+            </article>
+            <article class="summary-card">
+                <span>협동 게임</span>
+                <strong id="coopCount">0</strong>
+            </article>
+        </section>
+
+        <section class="game-grid" id="gameGrid"></section>
+
+        <section class="empty" id="emptyState">
+            <h3>조건에 맞는 게임이 없습니다</h3>
+            <p>검색어를 줄이거나 필터를 전체로 바꿔보세요.</p>
+        </section>
+
+        <section class="recommend" id="recommend">
+            <div class="section-head">
+                <p class="eyebrow">Recommendation</p>
+                <h2>목적별 빠른 추천</h2>
+            </div>
+            <div class="recommend-grid">
+                <button class="recommend-card" data-preset="coop">
+                    <strong>친구랑 할 게임</strong>
+                    <span>협동, 멀티 위주</span>
+                </button>
+                <button class="recommend-card" data-preset="lowSpec">
+                    <strong>저사양 게임</strong>
+                    <span>노트북도 부담 적게</span>
+                </button>
+                <button class="recommend-card" data-preset="bigSale">
+                    <strong>큰 할인 게임</strong>
+                    <span>70% 이상 할인</span>
+                </button>
+                <button class="recommend-card" data-preset="roguelike">
+                    <strong>반복 플레이</strong>
+                    <span>로그라이크, 장기플레이</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="guide" id="guide">
+            <div class="section-head">
+                <p class="eyebrow">Guide</p>
+                <h2>구매 판단 기준</h2>
+            </div>
+            <div class="guide-grid">
+                <article>
+                    <h3>지금 사도 좋음</h3>
+                    <p>할인율이 높고 현재가가 역대 최저가에 가까운 경우입니다.</p>
+                </article>
+                <article>
+                    <h3>괜찮은 할인</h3>
+                    <p>평소보다 싸지만 역대 최저가와 차이가 있는 경우입니다.</p>
+                </article>
+                <article>
+                    <h3>기다리기</h3>
+                    <p>할인율이 낮거나 할인 주기가 짧아 다음 세일을 기다릴 만한 경우입니다.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="gameModal" aria-hidden="true">
+        <div class="modal-dim" data-close="modal"></div>
+        <article class="modal-panel">
+            <button class="modal-close" data-close="modal">닫기</button>
+            <div id="modalContent"></div>
+        </article>
+    </div>
+
+    <footer class="footer">
+        <p>겜세일러는 구매 판단을 돕는 추천 사이트입니다. 실제 가격과 할인 종료일은 Steam 상점에서 최종 확인하세요.</p>
+        <p>Made for portfolio · Static Web Project</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

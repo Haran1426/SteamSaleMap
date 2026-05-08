@@ -1,0 +1,748 @@
+[
+  {
+    "appId": 413150,
+    "title": "Stardew Valley",
+    "koreanTitle": "스타듀 밸리",
+    "short": "농장, 낚시, 채집, 협동까지 가능한 저사양 힐링 게임.",
+    "tags": [
+      "힐링",
+      "농장",
+      "협동",
+      "저사양",
+      "장기플레이"
+    ],
+    "genre": "힐링",
+    "mode": [
+      "싱글",
+      "협동"
+    ],
+    "spec": "저사양",
+    "normalPrice": 16000,
+    "currentPrice": 9600,
+    "discount": 40,
+    "saleEnds": "2026-05-20",
+    "historicalLow": 8000,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/413150/header.jpg",
+    "saleHistory": [
+      "2025-02-12",
+      "2025-06-28",
+      "2025-11-27",
+      "2026-03-14"
+    ]
+  },
+  {
+    "appId": 1091500,
+    "title": "Cyberpunk 2077",
+    "koreanTitle": "사이버펑크 2077",
+    "short": "스토리, 도시 탐험, 전투 연출이 강한 오픈월드 RPG.",
+    "tags": [
+      "오픈월드",
+      "RPG",
+      "액션",
+      "싱글",
+      "고사양"
+    ],
+    "genre": "RPG",
+    "mode": [
+      "싱글"
+    ],
+    "spec": "고사양",
+    "normalPrice": 66000,
+    "currentPrice": 33000,
+    "discount": 50,
+    "saleEnds": "2026-05-19",
+    "historicalLow": 26400,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg",
+    "saleHistory": [
+      "2025-01-30",
+      "2025-04-18",
+      "2025-07-03",
+      "2025-11-26",
+      "2026-03-21"
+    ]
+  },
+  {
+    "appId": 1245620,
+    "title": "ELDEN RING",
+    "koreanTitle": "엘든 링",
+    "short": "탐험과 보스전 중심의 대형 액션 RPG.",
+    "tags": [
+      "소울라이크",
+      "오픈월드",
+      "액션",
+      "싱글",
+      "고사양"
+    ],
+    "genre": "액션",
+    "mode": [
+      "싱글",
+      "온라인"
+    ],
+    "spec": "고사양",
+    "normalPrice": 64800,
+    "currentPrice": 45360,
+    "discount": 30,
+    "saleEnds": "2026-05-23",
+    "historicalLow": 38880,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/1245620/header.jpg",
+    "saleHistory": [
+      "2025-03-14",
+      "2025-06-27",
+      "2025-11-27",
+      "2026-02-22"
+    ]
+  },
+  {
+    "appId": 367520,
+    "title": "Hollow Knight",
+    "koreanTitle": "할로우 나이트",
+    "short": "탐험, 보스전, 분위기가 좋은 2D 메트로배니아.",
+    "tags": [
+      "메트로배니아",
+      "액션",
+      "저사양",
+      "싱글",
+      "인디"
+    ],
+    "genre": "액션",
+    "mode": [
+      "싱글"
+    ],
+    "spec": "저사양",
+    "normalPrice": 17000,
+    "currentPrice": 8500,
+    "discount": 50,
+    "saleEnds": "2026-05-18",
+    "historicalLow": 4250,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/367520/header.jpg",
+    "saleHistory": [
+      "2025-01-05",
+      "2025-04-20",
+      "2025-06-29",
+      "2025-11-25",
+      "2026-03-15"
+    ]
+  },
+  {
+    "appId": 105600,
+    "title": "Terraria",
+    "koreanTitle": "테라리아",
+    "short": "채굴, 건축, 전투, 보스전까지 오래 즐기기 좋은 샌드박스.",
+    "tags": [
+      "샌드박스",
+      "협동",
+      "저사양",
+      "생존",
+      "장기플레이"
+    ],
+    "genre": "생존",
+    "mode": [
+      "싱글",
+      "협동"
+    ],
+    "spec": "저사양",
+    "normalPrice": 11000,
+    "currentPrice": 5500,
+    "discount": 50,
+    "saleEnds": "2026-05-21",
+    "historicalLow": 2750,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/105600/header.jpg",
+    "saleHistory": [
+      "2025-02-10",
+      "2025-06-26",
+      "2025-09-12",
+      "2025-11-27",
+      "2026-04-01"
+    ]
+  },
+  {
+    "appId": 582010,
+    "title": "Monster Hunter: World",
+    "koreanTitle": "몬스터 헌터: 월드",
+    "short": "친구와 큰 몬스터를 사냥하는 협동 액션 게임.",
+    "tags": [
+      "협동",
+      "액션",
+      "사냥",
+      "RPG",
+      "중사양"
+    ],
+    "genre": "액션",
+    "mode": [
+      "싱글",
+      "협동"
+    ],
+    "spec": "중사양",
+    "normalPrice": 34900,
+    "currentPrice": 10470,
+    "discount": 70,
+    "saleEnds": "2026-05-18",
+    "historicalLow": 10470,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/582010/header.jpg",
+    "saleHistory": [
+      "2025-01-22",
+      "2025-05-02",
+      "2025-07-15",
+      "2025-11-26",
+      "2026-03-28"
+    ]
+  },
+  {
+    "appId": 1086940,
+    "title": "Baldur's Gate 3",
+    "koreanTitle": "발더스 게이트 3",
+    "short": "선택지와 전투 전략이 강한 파티 기반 RPG.",
+    "tags": [
+      "RPG",
+      "전략",
+      "협동",
+      "싱글",
+      "고사양"
+    ],
+    "genre": "RPG",
+    "mode": [
+      "싱글",
+      "협동"
+    ],
+    "spec": "고사양",
+    "normalPrice": 66000,
+    "currentPrice": 52800,
+    "discount": 20,
+    "saleEnds": "2026-05-22",
+    "historicalLow": 46200,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/1086940/header.jpg",
+    "saleHistory": [
+      "2025-03-20",
+      "2025-06-28",
+      "2025-11-27",
+      "2026-03-19"
+    ]
+  },
+  {
+    "appId": 1145360,
+    "title": "Hades",
+    "koreanTitle": "하데스",
+    "short": "빠른 전투와 반복 성장 맛이 좋은 로그라이크 액션.",
+    "tags": [
+      "로그라이크",
+      "액션",
+      "싱글",
+      "저사양",
+      "인디"
+    ],
+    "genre": "로그라이크",
+    "mode": [
+      "싱글"
+    ],
+    "spec": "저사양",
+    "normalPrice": 27000,
+    "currentPrice": 13500,
+    "discount": 50,
+    "saleEnds": "2026-05-19",
+    "historicalLow": 10800,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/1145360/header.jpg",
+    "saleHistory": [
+      "2025-02-02",
+      "2025-06-30",
+      "2025-10-14",
+      "2025-11-28",
+      "2026-04-05"
+    ]
+  },
+  {
+    "appId": 252490,
+    "title": "Rust",
+    "koreanTitle": "러스트",
+    "short": "생존, 기지 건설, PvP가 중심인 멀티 생존 게임.",
+    "tags": [
+      "생존",
+      "멀티",
+      "PvP",
+      "건축",
+      "중사양"
+    ],
+    "genre": "생존",
+    "mode": [
+      "멀티"
+    ],
+    "spec": "중사양",
+    "normalPrice": 46000,
+    "currentPrice": 27600,
+    "discount": 40,
+    "saleEnds": "2026-05-24",
+    "historicalLow": 23000,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/252490/header.jpg",
+    "saleHistory": [
+      "2025-01-27",
+      "2025-06-27",
+      "2025-11-26",
+      "2026-03-16"
+    ]
+  },
+  {
+    "appId": 739630,
+    "title": "Phasmophobia",
+    "koreanTitle": "파스모포비아",
+    "short": "친구들과 유령을 조사하는 협동 공포 게임.",
+    "tags": [
+      "협동",
+      "공포",
+      "멀티",
+      "중사양",
+      "파티"
+    ],
+    "genre": "공포",
+    "mode": [
+      "협동"
+    ],
+    "spec": "중사양",
+    "normalPrice": 15500,
+    "currentPrice": 11620,
+    "discount": 25,
+    "saleEnds": "2026-05-17",
+    "historicalLow": 9300,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/739630/header.jpg",
+    "saleHistory": [
+      "2025-02-15",
+      "2025-06-29",
+      "2025-10-28",
+      "2025-11-27",
+      "2026-03-20"
+    ]
+  },
+  {
+    "appId": 322330,
+    "title": "Don't Starve Together",
+    "koreanTitle": "돈 스타브 투게더",
+    "short": "친구와 함께 버티는 생존 크래프팅 게임.",
+    "tags": [
+      "협동",
+      "생존",
+      "저사양",
+      "크래프팅",
+      "멀티"
+    ],
+    "genre": "생존",
+    "mode": [
+      "협동"
+    ],
+    "spec": "저사양",
+    "normalPrice": 15500,
+    "currentPrice": 3870,
+    "discount": 75,
+    "saleEnds": "2026-05-20",
+    "historicalLow": 3870,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/322330/header.jpg",
+    "saleHistory": [
+      "2025-01-31",
+      "2025-04-16",
+      "2025-06-30",
+      "2025-11-27",
+      "2026-04-04"
+    ]
+  },
+  {
+    "appId": 632360,
+    "title": "Risk of Rain 2",
+    "koreanTitle": "리스크 오브 레인 2",
+    "short": "템 조합과 속도감이 좋은 3D 로그라이크 협동 액션.",
+    "tags": [
+      "로그라이크",
+      "협동",
+      "액션",
+      "중사양",
+      "슈터"
+    ],
+    "genre": "로그라이크",
+    "mode": [
+      "싱글",
+      "협동"
+    ],
+    "spec": "중사양",
+    "normalPrice": 27000,
+    "currentPrice": 13500,
+    "discount": 50,
+    "saleEnds": "2026-05-19",
+    "historicalLow": 9450,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/632360/header.jpg",
+    "saleHistory": [
+      "2025-02-08",
+      "2025-06-26",
+      "2025-09-18",
+      "2025-11-27",
+      "2026-03-24"
+    ]
+  },
+  {
+    "appId": 1158310,
+    "title": "Crusader Kings III",
+    "koreanTitle": "크루세이더 킹즈 3",
+    "short": "가문, 외교, 전쟁을 운영하는 중세 전략 시뮬레이션.",
+    "tags": [
+      "전략",
+      "시뮬레이션",
+      "싱글",
+      "고사양",
+      "장기플레이"
+    ],
+    "genre": "전략",
+    "mode": [
+      "싱글",
+      "멀티"
+    ],
+    "spec": "중사양",
+    "normalPrice": 55000,
+    "currentPrice": 16500,
+    "discount": 70,
+    "saleEnds": "2026-05-23",
+    "historicalLow": 13750,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/1158310/header.jpg",
+    "saleHistory": [
+      "2025-01-20",
+      "2025-05-12",
+      "2025-06-29",
+      "2025-11-26",
+      "2026-03-30"
+    ]
+  },
+  {
+    "appId": 294100,
+    "title": "RimWorld",
+    "koreanTitle": "림월드",
+    "short": "기지 운영과 돌발 상황 대처가 핵심인 생존 시뮬레이션.",
+    "tags": [
+      "시뮬레이션",
+      "생존",
+      "싱글",
+      "저사양",
+      "장기플레이"
+    ],
+    "genre": "시뮬레이션",
+    "mode": [
+      "싱글"
+    ],
+    "spec": "저사양",
+    "normalPrice": 36000,
+    "currentPrice": 32400,
+    "discount": 10,
+    "saleEnds": "2026-05-25",
+    "historicalLow": 28800,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/294100/header.jpg",
+    "saleHistory": [
+      "2025-03-13",
+      "2025-06-28",
+      "2025-11-27",
+      "2026-04-12"
+    ]
+  },
+  {
+    "appId": 548430,
+    "title": "Deep Rock Galactic",
+    "koreanTitle": "딥 락 갤럭틱",
+    "short": "광물 채굴과 전투를 같이 하는 4인 협동 FPS.",
+    "tags": [
+      "협동",
+      "FPS",
+      "멀티",
+      "중사양",
+      "액션"
+    ],
+    "genre": "액션",
+    "mode": [
+      "협동"
+    ],
+    "spec": "중사양",
+    "normalPrice": 32000,
+    "currentPrice": 9600,
+    "discount": 70,
+    "saleEnds": "2026-05-22",
+    "historicalLow": 9600,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/548430/header.jpg",
+    "saleHistory": [
+      "2025-02-01",
+      "2025-05-05",
+      "2025-06-30",
+      "2025-11-27",
+      "2026-03-17"
+    ]
+  },
+  {
+    "appId": 588650,
+    "title": "Dead Cells",
+    "koreanTitle": "데드 셀",
+    "short": "빠른 컨트롤과 반복 도전이 강한 2D 로그라이크 액션.",
+    "tags": [
+      "로그라이크",
+      "액션",
+      "저사양",
+      "싱글",
+      "인디"
+    ],
+    "genre": "로그라이크",
+    "mode": [
+      "싱글"
+    ],
+    "spec": "저사양",
+    "normalPrice": 27000,
+    "currentPrice": 13500,
+    "discount": 50,
+    "saleEnds": "2026-05-18",
+    "historicalLow": 10800,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/588650/header.jpg",
+    "saleHistory": [
+      "2025-01-29",
+      "2025-06-27",
+      "2025-09-19",
+      "2025-11-25",
+      "2026-03-16"
+    ]
+  },
+  {
+    "appId": 1174180,
+    "title": "Red Dead Redemption 2",
+    "koreanTitle": "레드 데드 리뎀션 2",
+    "short": "서부극 분위기와 몰입감이 강한 대형 오픈월드 게임.",
+    "tags": [
+      "오픈월드",
+      "스토리",
+      "싱글",
+      "액션",
+      "고사양"
+    ],
+    "genre": "액션",
+    "mode": [
+      "싱글",
+      "온라인"
+    ],
+    "spec": "고사양",
+    "normalPrice": 66000,
+    "currentPrice": 22000,
+    "discount": 67,
+    "saleEnds": "2026-05-21",
+    "historicalLow": 19800,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg",
+    "saleHistory": [
+      "2025-01-25",
+      "2025-04-22",
+      "2025-06-29",
+      "2025-11-26",
+      "2026-03-23"
+    ]
+  },
+  {
+    "appId": 381210,
+    "title": "Dead by Daylight",
+    "koreanTitle": "데드 바이 데이라이트",
+    "short": "살인마와 생존자가 나뉘어 플레이하는 비대칭 멀티 게임.",
+    "tags": [
+      "멀티",
+      "공포",
+      "PvP",
+      "파티",
+      "중사양"
+    ],
+    "genre": "공포",
+    "mode": [
+      "멀티"
+    ],
+    "spec": "중사양",
+    "normalPrice": 21500,
+    "currentPrice": 8600,
+    "discount": 60,
+    "saleEnds": "2026-05-24",
+    "historicalLow": 6450,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/381210/header.jpg",
+    "saleHistory": [
+      "2025-02-07",
+      "2025-06-27",
+      "2025-10-26",
+      "2025-11-27",
+      "2026-04-09"
+    ]
+  },
+  {
+    "appId": 892970,
+    "title": "Valheim",
+    "koreanTitle": "발헤임",
+    "short": "탐험, 건축, 보스전이 있는 협동 생존 게임.",
+    "tags": [
+      "생존",
+      "협동",
+      "건축",
+      "탐험",
+      "중사양"
+    ],
+    "genre": "생존",
+    "mode": [
+      "싱글",
+      "협동"
+    ],
+    "spec": "중사양",
+    "normalPrice": 21500,
+    "currentPrice": 10750,
+    "discount": 50,
+    "saleEnds": "2026-05-20",
+    "historicalLow": 8600,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/892970/header.jpg",
+    "saleHistory": [
+      "2025-01-16",
+      "2025-04-24",
+      "2025-06-28",
+      "2025-11-27",
+      "2026-03-18"
+    ]
+  },
+  {
+    "appId": 227300,
+    "title": "Euro Truck Simulator 2",
+    "koreanTitle": "유로 트럭 시뮬레이터 2",
+    "short": "운전과 배송을 편하게 즐기는 트럭 시뮬레이션.",
+    "tags": [
+      "시뮬레이션",
+      "힐링",
+      "저사양",
+      "싱글",
+      "운전"
+    ],
+    "genre": "시뮬레이션",
+    "mode": [
+      "싱글",
+      "멀티"
+    ],
+    "spec": "저사양",
+    "normalPrice": 21500,
+    "currentPrice": 5370,
+    "discount": 75,
+    "saleEnds": "2026-05-23",
+    "historicalLow": 5370,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/227300/header.jpg",
+    "saleHistory": [
+      "2025-01-13",
+      "2025-04-18",
+      "2025-06-27",
+      "2025-11-26",
+      "2026-03-28"
+    ]
+  },
+  {
+    "appId": 646570,
+    "title": "Slay the Spire",
+    "koreanTitle": "슬레이 더 스파이어",
+    "short": "카드 덱을 만들며 진행하는 전략 로그라이크.",
+    "tags": [
+      "로그라이크",
+      "카드",
+      "전략",
+      "저사양",
+      "싱글"
+    ],
+    "genre": "로그라이크",
+    "mode": [
+      "싱글"
+    ],
+    "spec": "저사양",
+    "normalPrice": 27000,
+    "currentPrice": 9000,
+    "discount": 67,
+    "saleEnds": "2026-05-17",
+    "historicalLow": 6750,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/646570/header.jpg",
+    "saleHistory": [
+      "2025-02-03",
+      "2025-06-27",
+      "2025-11-26",
+      "2026-04-02"
+    ]
+  },
+  {
+    "appId": 250900,
+    "title": "The Binding of Isaac: Rebirth",
+    "koreanTitle": "아이작의 번제: 리버스",
+    "short": "방마다 아이템을 먹고 조합을 만드는 로그라이크 슈팅.",
+    "tags": [
+      "로그라이크",
+      "슈터",
+      "저사양",
+      "싱글",
+      "인디"
+    ],
+    "genre": "로그라이크",
+    "mode": [
+      "싱글"
+    ],
+    "spec": "저사양",
+    "normalPrice": 15500,
+    "currentPrice": 7750,
+    "discount": 50,
+    "saleEnds": "2026-05-20",
+    "historicalLow": 3870,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/250900/header.jpg",
+    "saleHistory": [
+      "2025-01-18",
+      "2025-06-29",
+      "2025-11-27",
+      "2026-03-29"
+    ]
+  },
+  {
+    "appId": 629760,
+    "title": "MORDHAU",
+    "koreanTitle": "모드하우",
+    "short": "중세 근접전 중심의 멀티 액션 게임.",
+    "tags": [
+      "멀티",
+      "액션",
+      "PvP",
+      "중사양",
+      "전투"
+    ],
+    "genre": "액션",
+    "mode": [
+      "멀티"
+    ],
+    "spec": "중사양",
+    "normalPrice": 32000,
+    "currentPrice": 6400,
+    "discount": 80,
+    "saleEnds": "2026-05-18",
+    "historicalLow": 6400,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/629760/header.jpg",
+    "saleHistory": [
+      "2025-02-11",
+      "2025-06-26",
+      "2025-09-21",
+      "2025-11-27",
+      "2026-04-06"
+    ]
+  },
+  {
+    "appId": 1366540,
+    "title": "Dyson Sphere Program",
+    "koreanTitle": "다이슨 스피어 프로그램",
+    "short": "우주 공장 자동화를 확장해 나가는 시뮬레이션.",
+    "tags": [
+      "자동화",
+      "시뮬레이션",
+      "싱글",
+      "중사양",
+      "장기플레이"
+    ],
+    "genre": "시뮬레이션",
+    "mode": [
+      "싱글"
+    ],
+    "spec": "중사양",
+    "normalPrice": 22000,
+    "currentPrice": 17600,
+    "discount": 20,
+    "saleEnds": "2026-05-24",
+    "historicalLow": 15400,
+    "image": "https://cdn.akamai.steamstatic.com/steam/apps/1366540/header.jpg",
+    "saleHistory": [
+      "2025-03-01",
+      "2025-06-30",
+      "2025-11-27",
+      "2026-04-03"
+    ]
+  }
+]
