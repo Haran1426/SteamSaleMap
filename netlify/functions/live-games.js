@@ -180,14 +180,14 @@ async function postItad(endpoint, body, query = "") {
 
 async function lookupItadIds(games) {
     try {
-        const appIds = games.map(game => String(game.appId));
+        const appIds = games.map(game => `app/${game.appId}`);
         const url = `https://api.isthereanydeal.com/lookup/id/shop/${STEAM_SHOP_ID}/v1?key=${encodeURIComponent(ITAD_KEY)}`;
         const data = await fetchJson(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(appIds)
         }, "ITAD Steam app lookup");
-        return new Map(Object.entries(data || {}).map(([appId, itadId]) => [appId, itadId]));
+        return new Map(Object.entries(data || {}).map(([shopGameId, itadId]) => [shopGameId.replace(/^app\//, ""), itadId]));
     } catch {
         return new Map();
     }
