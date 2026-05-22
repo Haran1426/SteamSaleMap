@@ -27,6 +27,27 @@ body {
     background: var(--bg-depth-0);
     color: var(--text-primary);
     font-family: "Noto Sans KR", sans-serif;
+    scrollbar-color: var(--accent-blue) var(--bg-depth-0);
+    scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-depth-0);
+}
+
+::-webkit-scrollbar-thumb {
+    border: 2px solid var(--bg-depth-0);
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--accent-blue), var(--accent-green));
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-blue);
 }
 
 button,
@@ -132,11 +153,13 @@ a {
 
 .app-shell {
     display: grid;
-    grid-template-columns: 240px 1fr;
+    grid-template-columns: minmax(0, 1fr) 260px;
     min-height: calc(100vh - 68px);
 }
 
 .sidebar {
+    grid-column: 2;
+    grid-row: 1;
     position: sticky;
     top: 68px;
     height: calc(100vh - 68px);
@@ -146,7 +169,9 @@ a {
     padding: 22px 18px;
     overflow: auto;
     background: var(--bg-depth-1);
-    border-right: 1px solid var(--border-default);
+    border-left: 1px solid var(--border-default);
+    scrollbar-color: var(--accent-blue) var(--bg-depth-1);
+    scrollbar-width: thin;
 }
 
 .side-panel {
@@ -274,12 +299,16 @@ input[type="search"]:focus {
 
 .btn {
     height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--border-default);
     border-radius: 8px;
     padding: 0 16px;
     background: var(--bg-depth-0);
     color: var(--text-primary);
     font-weight: 800;
+    line-height: 1.2;
     cursor: pointer;
     transition: transform 160ms ease, border-color 200ms ease, background 200ms ease;
 }
@@ -302,6 +331,8 @@ input[type="search"]:focus {
 }
 
 .bridge-main {
+    grid-column: 1;
+    grid-row: 1;
     min-width: 0;
     padding: 24px 32px 48px;
     background:
@@ -720,6 +751,9 @@ h1 span {
 .card-actions a,
 .card-actions button {
     height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--border-default);
     border-radius: 8px;
     background: var(--bg-depth-0);
@@ -728,7 +762,7 @@ h1 span {
     text-align: center;
     font-size: 12px;
     font-weight: 900;
-    line-height: 36px;
+    line-height: 1.2;
 }
 
 .card-actions a {
@@ -850,7 +884,7 @@ h1 span {
 }
 
 .footer {
-    padding: 28px 32px 46px 272px;
+    padding: 28px 292px 46px 32px;
     background: var(--bg-depth-2);
     border-top: 1px solid var(--border-default);
     font-size: 13px;
@@ -890,11 +924,13 @@ h1 span {
     }
 
     .sidebar {
+        grid-column: auto;
+        grid-row: auto;
         position: static;
         height: auto;
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        border-right: 0;
+        border-left: 0;
         border-bottom: 1px solid var(--border-default);
     }
 
@@ -916,6 +952,7 @@ h1 span {
     }
 
     .footer {
+        padding-right: 20px;
         padding-left: 20px;
     }
 }
