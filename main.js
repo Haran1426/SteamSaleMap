@@ -200,33 +200,46 @@ function renderGameCard(game) {
     const advice = getBuyAdvice(game);
     const cycleText = Number.isFinite(game.saleCycleDays) ? `${game.saleCycleDays}일` : "데이터 없음";
     const lowGap = Number.isFinite(game.historicalLowGap) ? `${game.historicalLowGap}%` : "데이터 없음";
+    const score = Math.round(getDealScore(game));
+    const scorePercent = Math.min(100, Math.max(0, score));
+    const saleEndText = game.saleEnds ? formatDate(game.saleEnds) : "미제공";
+    const saleDaysLeft = getDaysUntil(game.saleEnds);
+    const saleEndStatus = Number.isFinite(saleDaysLeft) && saleDaysLeft <= 3 ? "danger" : "neutral";
+    const lowestStatus = Number.isFinite(game.historicalLowGap) && game.historicalLowGap <= 0 ? "danger" : game.historicalLowGap <= 15 ? "good" : "warn";
 
     return `
         <article class="game-card">
-            <img class="game-img" src="${getHeaderImage(game.appId)}" alt="${escapeHtml(game.koreanTitle)}">
+            <div class="game-media">
+                <img class="game-img" src="${getHeaderImage(game.appId)}" alt="${escapeHtml(game.koreanTitle)}">
+                <span class="game-discount ${getDiscountStatus(game.discount)}">${game.discount > 0 ? `-${game.discount}%` : "정가"}</span>
+            </div>
             <div class="game-body">
                 <div class="game-title-row">
                     <div>
-                        <h3>${escapeHtml(game.koreanTitle)}</h3>
+                        <h3 class="game-title">${escapeHtml(game.koreanTitle)}</h3>
                         <small>${escapeHtml(game.title || `Steam App ${game.appId}`)}</small>
                     </div>
-                    <span class="discount">${game.discount > 0 ? `-${game.discount}%` : "정가"}</span>
                 </div>
-                <p class="desc">${escapeHtml(game.short)}</p>
-                <div class="price-row">
+                <div class="game-core">
                     <div>
-                        <div class="current-price">${formatPrice(game.currentPrice, game.currency)}</div>
-                        <div class="normal-price">${game.discount > 0 ? formatPrice(game.normalPrice, game.currency) : ""}</div>
+                        <div class="game-price-now current-price">${formatPrice(game.currentPrice, game.currency)}</div>
+                        <div class="game-price-original normal-price">${game.discount > 0 ? formatPrice(game.normalPrice, game.currency) : ""}</div>
                     </div>
-                    <span class="advice ${advice.type}">${advice.text}</span>
+                    <div class="score-meter" style="--score:${scorePercent}%">
+                        <span>추천 점수</span>
+                        <strong class="game-score">${score}</strong>
+                    </div>
                 </div>
-                <div class="meta-grid">
+                <div class="game-hover">
+                    <p class="desc">${escapeHtml(game.short)}</p>
+                    <div class="meta-grid">
                     <div class="meta-box"><span>평균 할인 주기</span><strong>${cycleText}</strong></div>
-                    <div class="meta-box"><span>최저가 차이</span><strong>${lowGap}</strong></div>
-                    <div class="meta-box"><span>할인 종료</span><strong>${game.saleEnds ? formatDate(game.saleEnds) : "미제공"}</strong></div>
-                    <div class="meta-box"><span>추천 점수</span><strong>${Math.round(getDealScore(game))}</strong></div>
+                    <div class="meta-box ${lowestStatus}"><span>최저가 차이</span><strong class="game-lowest-diff">${lowGap}</strong></div>
+                    <div class="meta-box ${saleEndStatus}"><span>할인 종료</span><strong class="game-end-date">${saleEndText}</strong></div>
+                    <div class="meta-box"><span>구매 판단</span><strong>${advice.text}</strong></div>
+                    </div>
+                    <div class="tags">${game.tags.slice(0, 5).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
                 </div>
-                <div class="tags">${game.tags.slice(0, 5).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>
                 <div class="card-actions">
                     <a href="https://store.steampowered.com/app/${game.appId}" target="_blank" rel="noopener">Steam 이동</a>
                     <button data-detail="${game.appId}" type="button">상세 보기</button>
@@ -234,6 +247,17 @@ function renderGameCard(game) {
             </div>
         </article>
     `;
+}
+
+function getDiscountStatus(discount) {
+    if (discount >= 70) return "status-good";
+    if (discount >= 30) return "status-warn";
+    return "status-neutral";
+}
+
+function getDaysUntil(value) {
+    if (!value) return null;
+    return Math.ceil((new Date(value) - new Date()) / 86400000);
 }
 
 function getDealScore(game) {
