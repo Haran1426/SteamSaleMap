@@ -54,9 +54,10 @@ async function loadLiveGames() {
 
 async function fetchLivePayload() {
     try {
-        const res = await fetch("/.netlify/functions/live-games");
-        if (!res.ok) throw new Error("serverless function unavailable");
-        const payload = await res.json();
+        const payload = await fetchFirstJson([
+            "/.netlify/functions/live-games",
+            "/api/live-games"
+        ]);
         return { ...payload, source: payload.itadEnabled ? "live+itad" : "live" };
     } catch {
         const res = await fetch("games.json");
@@ -69,6 +70,22 @@ async function fetchLivePayload() {
             games: await res.json()
         };
     }
+}
+
+async function fetchFirstJson(urls) {
+    let lastError = null;
+
+    for (const url of urls) {
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`${url} returned ${res.status}`);
+            return await res.json();
+        } catch (error) {
+            lastError = error;
+        }
+    }
+
+    throw lastError || new Error("live API unavailable");
 }
 
 function normalizeGames(games) {
