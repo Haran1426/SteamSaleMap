@@ -89,11 +89,15 @@ function updateSyncUi(payload) {
         return;
     }
 
+    const liveNote = Number.isFinite(payload.liveSpecialCount)
+        ? ` Steam 할인 목록 자동 수집 ${payload.liveSpecialCount}개를 함께 병합했습니다.`
+        : "";
+
     setStatus(
         payload.itadEnabled ? "정상" : "Steam",
         payload.itadEnabled
-            ? "Steam 현재가와 ITAD 가격 이력을 함께 반영했습니다."
-            : "Steam 현재가만 반영했습니다. ITAD_API_KEY를 설정하면 최저가와 할인 주기가 추가됩니다."
+            ? `Steam 현재가와 ITAD 가격 이력을 함께 반영했습니다.${liveNote}`
+            : `Steam 현재가와 현재 할인 목록을 반영했습니다.${liveNote} ITAD_API_KEY를 설정하면 최저가와 할인 주기가 추가됩니다.`
     );
 }
 

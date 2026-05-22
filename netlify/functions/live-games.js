@@ -7,14 +7,17 @@ const ITAD_KEY = process.env.ITAD_API_KEY || "";
 const ITAD_COUNTRY = process.env.ITAD_COUNTRY || "KR";
 const STEAM_SHOP_ID = 61;
 const API_TIMEOUT_MS = Number(process.env.API_TIMEOUT_MS || 8000);
+const STEAM_SPECIALS_LIMIT = Number(process.env.STEAM_SPECIALS_LIMIT || 40);
 
 exports.handler = async () => {
     try {
         const gamesPath = path.join(__dirname, "../../games.json");
         const baseGames = JSON.parse(fs.readFileSync(gamesPath, "utf8"));
+        const liveSpecials = await loadSteamSpecials();
+        const catalog = mergeCatalog(baseGames, liveSpecials);
 
-        const steamResults = await Promise.allSettled(baseGames.map(loadSteamApp));
-        let merged = baseGames.map((game, index) => {
+        const steamResults = await Promise.allSettled(catalog.map(loadSteamApp));
+        let merged = catalog.map((game, index) => {
             const steam = steamResults[index].status === "fulfilled" ? steamResults[index].value : null;
             return mergeSteam(game, steam);
         });
@@ -29,12 +32,52 @@ exports.handler = async () => {
             updatedAt: new Date().toISOString(),
             cacheSeconds: 3600,
             itadEnabled,
+            curatedCount: baseGames.length,
+            liveSpecialCount: liveSpecials.length,
             games: merged
         });
     } catch (error) {
         return json(500, { error: error.message || "live-games function error" });
     }
 };
+
+async function loadSteamSpecials() {
+    try {
+        const url = `https://store.steampowered.com/api/featuredcategories?cc=${STEAM_COUNTRY}&l=${STEAM_LANGUAGE}`;
+        const data = await fetchJson(url, {
+            headers: { "User-Agent": "steam-sale-picker/1.0" }
+        }, "Steam featured categories");
+        const items = data?.specials?.items || [];
+
+        return items
+            .filter(item => item?.id && item.discount_percent > 0)
+            .slice(0, STEAM_SPECIALS_LIMIT)
+            .map(item => ({
+                appId: item.id,
+                koreanTitle: item.name || `Steam App ${item.id}`,
+                title: item.name || `Steam App ${item.id}`,
+                tags: ["Steam 할인", "자동수집"],
+                genre: "Steam 추천",
+                mode: ["싱글"],
+                spec: "미분류",
+                short: "Steam 현재 할인 목록에서 자동으로 가져온 게임입니다.",
+                source: "steam-specials"
+            }));
+    } catch {
+        return [];
+    }
+}
+
+function mergeCatalog(baseGames, liveSpecials) {
+    const byAppId = new Map();
+    for (const game of baseGames) {
+        byAppId.set(game.appId, { ...game, source: game.source || "curated" });
+    }
+    for (const game of liveSpecials) {
+        if (!byAppId.has(game.appId)) byAppId.set(game.appId, game);
+    }
+    return [...byAppId.values()];
+}
 
 async function loadSteamApp(game) {
     const url = `https://store.steampowered.com/api/appdetails?appids=${game.appId}&cc=${STEAM_COUNTRY}&l=${STEAM_LANGUAGE}`;
@@ -67,6 +110,7 @@ function mergeSteam(game, steam) {
     return {
         ...game,
         title: steam.name || game.title || game.koreanTitle,
+        koreanTitle: game.koreanTitle || steam.name || game.title || `Steam App ${game.appId}`,
         currentPrice,
         normalPrice,
         discount: overview?.discount_percent || 0,
