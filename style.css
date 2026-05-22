@@ -56,21 +56,6 @@ select {
     font: inherit;
 }
 
-.current-price,
-.normal-price,
-.game-price-now,
-.game-price-original,
-.game-score,
-.game-lowest-diff,
-.game-end-date,
-.score-meter strong,
-.summary-card strong,
-.hero-card-top strong,
-.score-row strong,
-.meta-box strong {
-    font-family: "JetBrains Mono", monospace;
-}
-
 button,
 a {
     -webkit-tap-highlight-color: transparent;
@@ -601,12 +586,6 @@ h1 span {
     }
 }
 
-.game-media {
-    position: relative;
-    overflow: hidden;
-    background: var(--bg-depth-0);
-}
-
 .game-img {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -621,8 +600,8 @@ h1 span {
 
 .game-title-row {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 4px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
     align-items: start;
 }
 
@@ -648,39 +627,19 @@ h1 span {
     text-overflow: ellipsis;
 }
 
-.game-discount,
 .discount {
     position: absolute;
     top: 10px;
     right: 10px;
     z-index: 2;
-    min-width: 64px;
-    padding: 4px 10px;
+    padding: 6px 9px;
     border: 1px solid rgba(164, 208, 7, .28);
     border-radius: 8px;
-    background: #2a3d0f;
-    color: #a4d007;
+    background: var(--bg-green);
+    color: var(--accent-green);
     font-family: "JetBrains Mono", monospace;
-    font-size: 16px;
     font-weight: 600;
-    line-height: 1.25;
-    text-align: center;
     box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
-}
-
-.game-discount.status-good {
-    border-color: rgba(164, 208, 7, .5);
-}
-
-.game-discount.status-warn {
-    color: var(--accent-amber);
-    border-color: rgba(240, 165, 0, .65);
-    box-shadow: 0 0 0 1px rgba(240, 165, 0, .12), 0 6px 18px rgba(0, 0, 0, .35);
-}
-
-.game-discount.status-neutral {
-    color: var(--text-secondary);
-    border-color: rgba(122, 154, 176, .32);
 }
 
 .desc {
@@ -691,51 +650,27 @@ h1 span {
     line-height: 1.55;
 }
 
-.game-core,
 .price-row {
     display: flex;
     align-items: end;
     justify-content: space-between;
     gap: 10px;
-    margin: 14px 0 0;
+    margin: 12px 0;
 }
 
 .current-price {
     color: var(--accent-blue);
-    font-size: 22px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 21px;
     font-weight: 600;
 }
 
 .normal-price {
     margin-top: 3px;
     color: var(--text-muted);
+    font-family: "JetBrains Mono", monospace;
     font-size: 12px;
     text-decoration: line-through;
-}
-
-.score-meter {
-    width: min(124px, 42%);
-    display: grid;
-    gap: 5px;
-    color: var(--text-secondary);
-    font-size: 11px;
-    font-weight: 800;
-    text-align: right;
-}
-
-.score-meter strong {
-    color: var(--accent-blue);
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.score-meter::after {
-    content: "";
-    width: 100%;
-    height: 5px;
-    border-radius: 999px;
-    background:
-        linear-gradient(90deg, var(--accent-blue) var(--score), rgba(74, 158, 221, .16) var(--score));
 }
 
 .advice {
@@ -770,21 +705,6 @@ h1 span {
     margin: 14px 0;
 }
 
-.game-hover {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(-4px);
-    transition: max-height 240ms ease, opacity 180ms ease, transform 180ms ease;
-}
-
-.game-card:hover .game-hover,
-.game-card:focus-within .game-hover {
-    max-height: 360px;
-    opacity: 1;
-    transform: translateY(0);
-}
-
 .meta-box {
     min-height: 64px;
     border: 1px solid rgba(100, 160, 220, .2);
@@ -817,23 +737,6 @@ h1 span {
 
 .meta-box:nth-child(4) strong {
     color: var(--accent-blue);
-}
-
-.meta-box.good strong {
-    color: var(--accent-green);
-}
-
-.meta-box.warn strong {
-    color: var(--accent-amber);
-}
-
-.meta-box.danger strong {
-    color: var(--accent-red);
-}
-
-.meta-box.danger {
-    border-color: rgba(224, 92, 92, .34);
-    background: rgba(224, 92, 92, .08);
 }
 
 .tags {
