@@ -13,11 +13,11 @@
 </head>
 <body>
     <header class="nav">
-        <a class="logo" href="index.html"><span class="logo-mark">GS</span><span>GameSailor</span></a>
+        <a class="logo" href="index.html"><span class="logo-mark">GS</span><span>게임세일러</span></a>
         <div class="nav-links">
-            <a href="#deals">Bridge</a>
-            <a href="#ops">Signals</a>
-            <a href="#guide">System</a>
+            <a href="#deals">할인 탐색</a>
+            <a href="#ops">운영 지표</a>
+            <a href="#guide">연동 구조</a>
         </div>
         <div class="sync-status">
             <span class="sync-dot"></span>
@@ -29,7 +29,7 @@
     <div class="app-shell">
         <aside class="sidebar">
             <section class="side-panel">
-                <p class="panel-label">Command Filters</p>
+                <p class="panel-label">필터 설정</p>
                 <label>
                     <span>장르</span>
                     <select id="genreFilter"><option value="all">전체 장르</option></select>
@@ -56,17 +56,17 @@
             </section>
 
             <section class="side-panel">
-                <p class="panel-label">Quick Signals</p>
+                <p class="panel-label">빠른 태그</p>
                 <div class="quick-tags" id="quickTags"></div>
             </section>
 
             <section class="side-panel compact">
-                <p class="panel-label">Mission Presets</p>
+                <p class="panel-label">추천 목적</p>
                 <div class="preset-list">
-                    <button class="recommend-card" data-preset="coop" type="button"><strong>Squad</strong><span>협동·멀티</span></button>
-                    <button class="recommend-card" data-preset="lowSpec" type="button"><strong>Light Rig</strong><span>저사양</span></button>
-                    <button class="recommend-card" data-preset="bigSale" type="button"><strong>Deep Sale</strong><span>70%+</span></button>
-                    <button class="recommend-card" data-preset="roguelike" type="button"><strong>Loop Run</strong><span>로그라이크</span></button>
+                    <button class="recommend-card" data-preset="coop" type="button"><strong>친구와 함께</strong><span>협동·멀티 게임</span></button>
+                    <button class="recommend-card" data-preset="lowSpec" type="button"><strong>가벼운 사양</strong><span>노트북에서도 부담 적게</span></button>
+                    <button class="recommend-card" data-preset="bigSale" type="button"><strong>큰 폭의 할인</strong><span>70% 이상 할인 우선</span></button>
+                    <button class="recommend-card" data-preset="roguelike" type="button"><strong>반복 플레이</strong><span>로그라이크 중심</span></button>
                 </div>
             </section>
 
@@ -76,7 +76,7 @@
         <main class="bridge-main">
             <section class="hero">
                 <div class="hero-copy">
-                    <p class="eyebrow">Live Steam Deal Bridge</p>
+                    <p class="eyebrow">실시간 Steam 할인 대시보드</p>
                     <h1>할인 데이터를 항해하는 <span>구매 추천 함교</span></h1>
                     <p class="hero-text">
                         Steam 현재 할인 목록과 큐레이션 데이터를 병합하고, 할인율·최저가 차이·할인 주기를 계기판처럼 압축해 보여줍니다.
@@ -88,16 +88,16 @@
                 </div>
                 <aside class="hero-card">
                     <div class="hero-card-top">
-                        <span>Last Sync</span>
+                        <span>마지막 동기화</span>
                         <strong id="lastUpdated">-</strong>
                     </div>
                     <div class="score-row">
                         <div>
-                            <span class="label">Catalog</span>
+                            <span class="label">게임 목록</span>
                             <strong id="gameCount">0개</strong>
                         </div>
                         <div>
-                            <span class="label">Cache</span>
+                            <span class="label">캐시 주기</span>
                             <strong>1H</strong>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
 
             <section class="toolbar" id="deals">
                 <div class="section-head">
-                    <p class="eyebrow">Navigation Console</p>
+                    <p class="eyebrow">할인 탐색 콘솔</p>
                     <h2>실시간 할인 게임 레이더</h2>
                 </div>
                 <div class="control-bar">
@@ -140,7 +140,7 @@
 
             <section class="rule-panel">
                 <div>
-                    <p class="eyebrow">Business Rules</p>
+                    <p class="eyebrow">추천 기준</p>
                     <h2>구매 추천 점수</h2>
                     <p>할인율, 역대 최저가와의 차이, 평균 할인 주기, 현재 가격 구간을 합산해 정렬합니다.</p>
                 </div>
@@ -154,24 +154,24 @@
 
             <section class="guide" id="guide">
                 <div class="section-head">
-                    <p class="eyebrow">System</p>
+                    <p class="eyebrow">데이터 연동</p>
                     <h2>데이터 연동 구조</h2>
                 </div>
                 <div class="guide-grid">
                     <article>
-                        <h3>Steam Specials</h3>
+                        <h3>Steam 할인 목록</h3>
                         <p>현재 할인 목록을 자동 수집하고 큐레이션 데이터와 병합합니다.</p>
                     </article>
                     <article>
-                        <h3>Price Sync</h3>
+                        <h3>가격 동기화</h3>
                         <p>Steam Store 데이터로 현재가, 정가, 할인율, 종료일을 갱신합니다.</p>
                     </article>
                     <article>
-                        <h3>History</h3>
+                        <h3>가격 이력</h3>
                         <p>ITAD API 키가 있으면 역대 최저가와 최근 가격 이력을 추가합니다.</p>
                     </article>
                     <article>
-                        <h3>Fallback</h3>
+                        <h3>장애 대응</h3>
                         <p>API 실패 시 샘플 데이터로 전환해 화면이 비지 않게 유지합니다.</p>
                     </article>
                 </div>
@@ -189,7 +189,7 @@
 
     <footer class="footer">
         <p>실제 구매 전 Steam 상점 가격과 지역 제한을 최종 확인하세요.</p>
-        <p>Static Frontend + Netlify Functions + External Price APIs</p>
+        <p>정적 프론트엔드 + Netlify Functions + 외부 가격 API</p>
     </footer>
 
     <script src="main.js"></script>
