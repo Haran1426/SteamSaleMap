@@ -32,9 +32,7 @@ npm run dev
 
 접속 주소:
 
-```txt
-http://localhost:8888
-```
+https://steam-sale-map.netlify.app/
 
 정적 파일만 열어도 `games.json` 샘플 데이터로 화면을 확인할 수 있습니다.
 
