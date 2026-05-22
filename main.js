@@ -287,12 +287,13 @@ function openModal(appId) {
     if (!game) return;
 
     const advice = getBuyAdvice(game);
+    const detailDescription = game.steamDescription || game.short;
     els.modalContent.innerHTML = `
         <div class="modal-content">
             <img class="modal-hero" src="${getCapsuleImage(game.appId)}" alt="${escapeHtml(game.koreanTitle)}">
             <p class="eyebrow">${escapeHtml(game.genre)} · ${escapeHtml(game.spec)}</p>
             <h2>${escapeHtml(game.koreanTitle)}</h2>
-            <p class="desc">${escapeHtml(game.short)}</p>
+            <p class="desc">${escapeHtml(detailDescription)}</p>
             <div class="meta-grid">
                 <div class="meta-box"><span>현재 가격</span><strong>${formatPrice(game.currentPrice, game.currency)}</strong></div>
                 <div class="meta-box"><span>정가</span><strong>${formatPrice(game.normalPrice, game.currency)}</strong></div>

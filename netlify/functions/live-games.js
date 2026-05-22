@@ -111,6 +111,8 @@ function mergeSteam(game, steam) {
         ...game,
         title: steam.name || game.title || game.koreanTitle,
         koreanTitle: game.koreanTitle || steam.name || game.title || `Steam App ${game.appId}`,
+        steamDescription: steam.short_description || game.steamDescription || game.short || "",
+        steamHeaderImage: steam.header_image || null,
         currentPrice,
         normalPrice,
         discount: overview?.discount_percent || 0,
