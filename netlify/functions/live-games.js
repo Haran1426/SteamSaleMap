@@ -7,6 +7,8 @@ const ITAD_COUNTRY = process.env.ITAD_COUNTRY || "KR";
 const STEAM_SHOP_ID = 61;
 const API_TIMEOUT_MS = Number(process.env.API_TIMEOUT_MS || 8000);
 const STEAM_SPECIALS_LIMIT = Number(process.env.STEAM_SPECIALS_LIMIT || 40);
+const ITAD_HISTORY_LIMIT = Number(process.env.ITAD_HISTORY_LIMIT || 16);
+const ITAD_HISTORY_CONCURRENCY = Number(process.env.ITAD_HISTORY_CONCURRENCY || 4);
 
 exports.handler = async () => {
     try {
@@ -130,9 +132,15 @@ async function attachItadData(games) {
     const ids = withIds.map(game => game.itadId).filter(Boolean);
     if (!ids.length) return withIds;
 
+    const historyIds = [...new Set(withIds
+        .filter(game => game.itadId)
+        .sort((a, b) => (b.discount || 0) - (a.discount || 0))
+        .slice(0, ITAD_HISTORY_LIMIT)
+        .map(game => game.itadId))];
+
     const [lows, histories] = await Promise.all([
         postItad("https://api.isthereanydeal.com/games/storelow/v2", ids, `country=${ITAD_COUNTRY}&shops=${STEAM_SHOP_ID}`),
-        loadHistories(ids)
+        loadHistories(historyIds)
     ]);
 
     const lowById = new Map((lows || []).map(item => [item.id, item]));
@@ -144,7 +152,7 @@ async function attachItadData(games) {
         const steamLow = lowById.get(game.itadId)?.lows?.find(item => item.shop?.id === STEAM_SHOP_ID);
         const history = historyById.get(game.itadId) || [];
         const saleCycleDays = calculateSaleCycle(history);
-        const historicalLow = steamLow?.price?.amountInt ? steamLow.price.amountInt / 100 : null;
+        const historicalLow = readItadAmount(steamLow?.price);
         const historicalLowGap = historicalLow && game.currentPrice
             ? Math.max(0, Math.round(((game.currentPrice - historicalLow) / historicalLow) * 100))
             : null;
@@ -157,7 +165,7 @@ async function attachItadData(games) {
             saleCycleDays,
             priceHistory: history.slice(0, 8).map(item => ({
                 timestamp: item.timestamp,
-                price: item.deal?.price?.amountInt ? item.deal.price.amountInt / 100 : null,
+                price: readItadAmount(item.deal?.price),
                 currency: item.deal?.price?.currency || game.currency,
                 cut: item.deal?.cut || 0
             }))
@@ -210,18 +218,33 @@ async function fetchJson(url, options = {}, label = "request") {
 }
 
 async function loadHistories(ids) {
-    const since = new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 2).toISOString();
-    const jobs = ids.map(async id => {
-        try {
-            const url = `https://api.isthereanydeal.com/games/history/v2?key=${encodeURIComponent(ITAD_KEY)}&id=${id}&country=${ITAD_COUNTRY}&shops=${STEAM_SHOP_ID}&since=${encodeURIComponent(since)}`;
-            const history = await fetchJson(url, {}, `ITAD history ${id}`);
-            return { id, history: Array.isArray(history) ? history : [] };
-        } catch {
-            return { id, history: [] };
-        }
-    });
+    const since = new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 2)
+        .toISOString()
+        .replace(/\.\d{3}Z$/, "Z");
+    const results = [];
 
-    return Promise.all(jobs);
+    for (let index = 0; index < ids.length; index += ITAD_HISTORY_CONCURRENCY) {
+        const batch = ids.slice(index, index + ITAD_HISTORY_CONCURRENCY);
+        const batchResults = await Promise.all(batch.map(async id => {
+            try {
+                const url = `https://api.isthereanydeal.com/games/history/v2?key=${encodeURIComponent(ITAD_KEY)}&id=${id}&country=${ITAD_COUNTRY}&shops=${STEAM_SHOP_ID}&since=${encodeURIComponent(since)}`;
+                const history = await fetchJson(url, {}, `ITAD history ${id}`);
+                return { id, history: Array.isArray(history) ? history : [] };
+            } catch {
+                return { id, history: [] };
+            }
+        }));
+        results.push(...batchResults);
+    }
+
+    return results;
+}
+
+function readItadAmount(price) {
+    if (!price) return null;
+    if (typeof price.amount === "number") return price.amount;
+    if (typeof price.amountInt === "number") return price.amountInt / 100;
+    return null;
 }
 
 function calculateSaleCycle(history) {
