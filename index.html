@@ -3,38 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>겜세일러 | 실시간 스팀 할인 게임 추천</title>
-    <meta name="description" content="스팀 현재 가격을 실시간으로 불러와 할인율, 역대 최저가, 할인 주기를 같이 보여주는 게임 추천 사이트입니다.">
-    <meta name="keywords" content="스팀 할인, 스팀 게임 추천, 저사양 게임 추천, 협동게임 추천, 할인 주기, 역대 최저가">
+    <title>게임세일러 | 실시간 Steam 할인 추천 대시보드</title>
+    <meta name="description" content="Steam 현재가와 할인 정보를 수집해 최저가 차이, 할인 주기, 추천 점수로 게임 구매 타이밍을 보여주는 포트폴리오 프로젝트입니다.">
+    <meta name="keywords" content="Steam 할인, 가격 대시보드, Netlify Functions, API 연동, 포트폴리오">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav class="nav">
-        <a class="logo" href="index.html"><span class="logo-mark">G</span>겜세일러</a>
+        <a class="logo" href="index.html"><span class="logo-mark">G</span>게임세일러</a>
         <div class="nav-links">
-            <a href="#deals">할인게임</a>
+            <a href="#deals">할인 목록</a>
             <a href="#recommend">추천</a>
-            <a href="#guide">연동방식</a>
+            <a href="#ops">운영 지표</a>
+            <a href="#guide">구조</a>
         </div>
     </nav>
 
     <main>
         <section class="hero">
             <div class="hero-copy">
-                <p class="eyebrow">Live Steam Deal Tracker</p>
-                <h1>실시간 가격으로 보는 <span>스팀 할인 추천</span></h1>
+                <p class="eyebrow">Live Steam Deal Dashboard</p>
+                <h1>가격 데이터를 기준으로 고르는 <span>Steam 할인 추천</span></h1>
                 <p class="hero-text">
-                    Steam 현재 가격을 서버 함수에서 불러오고, IsThereAnyDeal API 키가 있으면 역대 최저가와 할인 주기까지 계산합니다.
+                    Steam Store API와 IsThereAnyDeal 데이터를 서버리스 함수에서 병합하고, 할인율·최저가 차이·할인 주기를 점수화해 구매 타이밍을 판단합니다.
                 </p>
                 <div class="hero-actions">
-                    <a class="btn primary" href="#deals">실시간 목록 보기</a>
-                    <button class="btn ghost" id="refreshBtn">새로고침</button>
+                    <a class="btn primary" href="#deals">목록 보기</a>
+                    <button class="btn ghost" id="refreshBtn" type="button">새로고침</button>
+                    <button class="btn ghost" id="exportBtn" type="button">CSV 내보내기</button>
                 </div>
-                <p class="sync-note" id="syncNote">실시간 데이터를 불러오는 중...</p>
+                <p class="sync-note" id="syncNote">데이터를 불러오는 중입니다.</p>
             </div>
             <aside class="hero-card">
                 <div class="hero-card-top">
-                    <span>데이터 기준</span>
+                    <span>마지막 동기화</span>
                     <strong id="lastUpdated">-</strong>
                 </div>
                 <div class="score-row">
@@ -48,12 +50,10 @@
                     </div>
                 </div>
                 <p class="hero-note">
-                    가격은 서버 함수 응답 기준으로 최대 1시간 캐시됩니다. 브라우저에 샘플 가격을 박아두지 않았습니다.
+                    서버 함수 응답은 1시간 캐시하도록 설계했습니다. API가 실패하면 정적 샘플 데이터로 전환해 데모가 끊기지 않게 했습니다.
                 </p>
             </aside>
         </section>
-
-        <section class="ad-box">광고 영역</section>
 
         <section class="toolbar" id="deals">
             <div class="section-head">
@@ -62,7 +62,7 @@
             </div>
 
             <div class="search-wrap">
-                <input id="searchInput" type="search" placeholder="게임 이름, 태그 검색 예: 협동, 저사양, 로그라이크">
+                <input id="searchInput" type="search" placeholder="게임 이름, 장르, 태그 검색: 협동, 저사양, 로그라이크">
             </div>
 
             <div class="filters">
@@ -72,6 +72,7 @@
                     <option value="싱글">싱글</option>
                     <option value="협동">협동</option>
                     <option value="멀티">멀티</option>
+                    <option value="온라인">온라인</option>
                 </select>
                 <select id="specFilter">
                     <option value="all">전체 사양</option>
@@ -80,7 +81,7 @@
                     <option value="고사양">고사양</option>
                 </select>
                 <select id="sortSelect">
-                    <option value="dealScore">추천순</option>
+                    <option value="dealScore">추천 점수순</option>
                     <option value="discount">할인율 높은순</option>
                     <option value="priceAsc">가격 낮은순</option>
                     <option value="cycle">할인 주기 짧은순</option>
@@ -91,11 +92,25 @@
             <div class="quick-tags" id="quickTags"></div>
         </section>
 
-        <section class="summary-grid">
-            <article class="summary-card"><span>가격 연동 성공</span><strong id="syncedCount">0</strong></article>
+        <section class="summary-grid" id="ops">
+            <article class="summary-card"><span>가격 동기화 성공</span><strong id="syncedCount">0</strong></article>
             <article class="summary-card"><span>현재 할인 중</span><strong id="saleCount">0</strong></article>
             <article class="summary-card"><span>70% 이상 할인</span><strong id="bigSaleCount">0</strong></article>
             <article class="summary-card"><span>협동 게임</span><strong id="coopCount">0</strong></article>
+        </section>
+
+        <section class="rule-panel">
+            <div>
+                <p class="eyebrow">Business Rules</p>
+                <h2>구매 추천 점수</h2>
+                <p>할인율, 역대 최저가와의 차이, 평균 할인 주기, 현재 가격 구간을 합산해 정렬합니다. 규칙은 `main.js`의 `getDealScore`와 `getBuyAdvice`에서 분리했습니다.</p>
+            </div>
+            <div class="rule-list">
+                <span>할인율 가중치 1.8</span>
+                <span>최저가 근접 보너스</span>
+                <span>짧은 할인 주기 보너스</span>
+                <span>1만원 이하 가격 보너스</span>
+            </div>
         </section>
 
         <section class="game-grid" id="gameGrid"></section>
@@ -111,30 +126,34 @@
                 <h2>목적별 빠른 추천</h2>
             </div>
             <div class="recommend-grid">
-                <button class="recommend-card" data-preset="coop"><strong>친구랑 할 게임</strong><span>협동, 멀티 위주</span></button>
-                <button class="recommend-card" data-preset="lowSpec"><strong>저사양 게임</strong><span>노트북도 부담 적게</span></button>
-                <button class="recommend-card" data-preset="bigSale"><strong>큰 할인 게임</strong><span>70% 이상 할인</span></button>
-                <button class="recommend-card" data-preset="roguelike"><strong>반복 플레이</strong><span>로그라이크, 장기플레이</span></button>
+                <button class="recommend-card" data-preset="coop" type="button"><strong>친구와 할 게임</strong><span>협동·멀티 중심</span></button>
+                <button class="recommend-card" data-preset="lowSpec" type="button"><strong>노트북용 게임</strong><span>저사양 위주</span></button>
+                <button class="recommend-card" data-preset="bigSale" type="button"><strong>큰 할인 게임</strong><span>70% 이상 할인 우선</span></button>
+                <button class="recommend-card" data-preset="roguelike" type="button"><strong>반복 플레이</strong><span>로그라이크·성장형</span></button>
             </div>
         </section>
 
         <section class="guide" id="guide">
             <div class="section-head">
-                <p class="eyebrow">Live API</p>
-                <h2>연동 방식</h2>
+                <p class="eyebrow">Architecture</p>
+                <h2>데이터 연동 구조</h2>
             </div>
             <div class="guide-grid">
                 <article>
                     <h3>Steam 현재가</h3>
-                    <p>서버 함수가 Steam Store 데이터를 호출해서 현재가, 정가, 할인율을 가져옵니다.</p>
+                    <p>Netlify Function이 Steam Store 데이터를 호출해 현재가, 정가, 할인율, 할인 종료일을 병합합니다.</p>
                 </article>
                 <article>
-                    <h3>1시간 캐시</h3>
-                    <p>서버 응답은 1시간 캐시되므로 사용자가 몰려도 API 요청이 과하게 늘지 않습니다.</p>
+                    <h3>가격 이력</h3>
+                    <p>ITAD API 키가 있으면 역대 최저가와 최근 가격 이력을 붙여 구매 판단 근거를 늘립니다.</p>
                 </article>
                 <article>
-                    <h3>할인 주기</h3>
-                    <p>ITAD_API_KEY를 설정하면 IsThereAnyDeal 가격 기록으로 평균 할인 간격을 계산합니다.</p>
+                    <h3>장애 대응</h3>
+                    <p>실시간 API 실패 시 `games.json` 샘플 데이터를 사용해 프론트엔드 데모가 계속 동작합니다.</p>
+                </article>
+                <article>
+                    <h3>운영 관점</h3>
+                    <p>동기화 상태, 데이터 소스, CSV 내보내기를 제공해 이커머스/ERP성 데이터 관리 화면처럼 설명할 수 있습니다.</p>
                 </article>
             </div>
         </section>
@@ -143,14 +162,14 @@
     <div class="modal" id="gameModal" aria-hidden="true">
         <div class="modal-dim" data-close="modal"></div>
         <article class="modal-panel">
-            <button class="modal-close" data-close="modal">닫기</button>
+            <button class="modal-close" data-close="modal" type="button">닫기</button>
             <div id="modalContent"></div>
         </article>
     </div>
 
     <footer class="footer">
-        <p>실제 구매 전 Steam 상점 가격을 최종 확인하세요. 일부 게임은 연령 등급이 있을 수 있습니다.</p>
-        <p>Static Frontend + Netlify Functions</p>
+        <p>실제 구매 전 Steam 상점 가격과 지역 제한을 최종 확인하세요. 일부 게임은 연령 등급이 있을 수 있습니다.</p>
+        <p>Static Frontend + Netlify Functions + External Price APIs</p>
     </footer>
 
     <script src="main.js"></script>

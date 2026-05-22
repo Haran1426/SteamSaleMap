@@ -2,299 +2,293 @@
   {
     "appId": 413150,
     "koreanTitle": "스타듀 밸리",
-    "tags": [
-      "힐링",
-      "농장",
-      "협동",
-      "저사양",
-      "장기플레이"
-    ],
-    "genre": "힐링",
-    "mode": [
-      "싱글",
-      "협동"
-    ],
+    "tags": ["농장", "생활", "협동", "저사양", "장기플레이"],
+    "genre": "시뮬레이션",
+    "mode": ["싱글", "협동"],
     "spec": "저사양",
-    "short": "농장, 낚시, 채집, 협동까지 가능한 저사양 힐링 게임."
+    "short": "농장 경영, 낚시, 채집, 관계 형성을 오래 즐길 수 있는 생활형 게임.",
+    "currentPrice": 9600,
+    "normalPrice": 16000,
+    "discount": 40,
+    "currency": "KRW",
+    "saleEnds": "2026-06-03T15:00:00.000Z",
+    "priceSynced": false,
+    "historicalLow": 8000,
+    "historicalLowGap": 20,
+    "saleCycleDays": 58,
+    "priceHistory": [
+      {"timestamp": "2026-04-12T00:00:00.000Z", "price": 9600, "currency": "KRW", "cut": 40},
+      {"timestamp": "2026-02-09T00:00:00.000Z", "price": 8000, "currency": "KRW", "cut": 50}
+    ]
   },
   {
     "appId": 1091500,
     "koreanTitle": "사이버펑크 2077",
-    "tags": [
-      "오픈월드",
-      "RPG",
-      "액션",
-      "싱글",
-      "고사양"
-    ],
+    "tags": ["오픈월드", "RPG", "액션", "싱글", "고사양"],
     "genre": "RPG",
-    "mode": [
-      "싱글"
-    ],
+    "mode": ["싱글"],
     "spec": "고사양",
-    "short": "스토리, 도시 탐험, 전투 연출이 강한 오픈월드 RPG."
+    "short": "스토리 중심 탐험과 전투 연출이 강한 오픈월드 RPG.",
+    "currentPrice": 33000,
+    "normalPrice": 66000,
+    "discount": 50,
+    "currency": "KRW",
+    "saleEnds": "2026-06-06T15:00:00.000Z",
+    "priceSynced": false,
+    "historicalLow": 26400,
+    "historicalLowGap": 25,
+    "saleCycleDays": 45
   },
   {
     "appId": 1245620,
     "koreanTitle": "엘든 링",
-    "tags": [
-      "소울라이크",
-      "오픈월드",
-      "액션",
-      "싱글",
-      "고사양"
-    ],
+    "tags": ["소울라이크", "오픈월드", "액션", "싱글", "고사양"],
     "genre": "액션",
-    "mode": [
-      "싱글",
-      "온라인"
-    ],
+    "mode": ["싱글", "온라인"],
     "spec": "고사양",
-    "short": "탐험과 보스전 중심의 대형 액션 RPG."
+    "short": "탐험과 보스전 중심의 대형 액션 RPG.",
+    "currentPrice": 45400,
+    "normalPrice": 64800,
+    "discount": 30,
+    "currency": "KRW",
+    "saleEnds": null,
+    "priceSynced": false,
+    "historicalLow": 38880,
+    "historicalLowGap": 17,
+    "saleCycleDays": 71
   },
   {
     "appId": 367520,
     "koreanTitle": "할로우 나이트",
-    "tags": [
-      "메트로배니아",
-      "액션",
-      "저사양",
-      "싱글",
-      "인디"
-    ],
+    "tags": ["메트로배니아", "액션", "저사양", "싱글", "인디"],
     "genre": "액션",
-    "mode": [
-      "싱글"
-    ],
+    "mode": ["싱글"],
     "spec": "저사양",
-    "short": "탐험, 보스전, 분위기가 좋은 2D 메트로배니아."
+    "short": "정교한 전투와 탐험 밀도가 좋은 2D 액션 어드벤처.",
+    "currentPrice": 8000,
+    "normalPrice": 16000,
+    "discount": 50,
+    "currency": "KRW",
+    "saleEnds": "2026-06-01T15:00:00.000Z",
+    "priceSynced": false,
+    "historicalLow": 6400,
+    "historicalLowGap": 25,
+    "saleCycleDays": 52
   },
   {
     "appId": 105600,
     "koreanTitle": "테라리아",
-    "tags": [
-      "샌드박스",
-      "협동",
-      "저사양",
-      "생존",
-      "장기플레이"
-    ],
+    "tags": ["샌드박스", "협동", "저사양", "생존", "장기플레이"],
     "genre": "생존",
-    "mode": [
-      "싱글",
-      "협동"
-    ],
+    "mode": ["싱글", "협동"],
     "spec": "저사양",
-    "short": "채굴, 건축, 전투, 보스전까지 오래 즐기기 좋은 샌드박스."
+    "short": "채굴, 건축, 전투, 보스 공략을 오래 즐기는 샌드박스 게임.",
+    "currentPrice": 5500,
+    "normalPrice": 11000,
+    "discount": 50,
+    "currency": "KRW",
+    "saleEnds": null,
+    "priceSynced": false,
+    "historicalLow": 2750,
+    "historicalLowGap": 100,
+    "saleCycleDays": 63
   },
   {
     "appId": 582010,
     "koreanTitle": "몬스터 헌터: 월드",
-    "tags": [
-      "협동",
-      "액션",
-      "사냥",
-      "RPG",
-      "중사양"
-    ],
+    "tags": ["협동", "액션", "사냥", "RPG", "중사양"],
     "genre": "액션",
-    "mode": [
-      "싱글",
-      "협동"
-    ],
+    "mode": ["싱글", "협동"],
     "spec": "중사양",
-    "short": "친구와 큰 몬스터를 사냥하는 협동 액션 게임."
+    "short": "친구와 거대 몬스터를 사냥하는 협동 액션 게임.",
+    "currentPrice": 10900,
+    "normalPrice": 34900,
+    "discount": 69,
+    "currency": "KRW",
+    "saleEnds": "2026-06-10T15:00:00.000Z",
+    "priceSynced": false,
+    "historicalLow": 9900,
+    "historicalLowGap": 10,
+    "saleCycleDays": 42
   },
   {
     "appId": 1086940,
     "koreanTitle": "발더스 게이트 3",
-    "tags": [
-      "RPG",
-      "전략",
-      "협동",
-      "싱글",
-      "고사양"
-    ],
+    "tags": ["RPG", "전략", "협동", "싱글", "고사양"],
     "genre": "RPG",
-    "mode": [
-      "싱글",
-      "협동"
-    ],
+    "mode": ["싱글", "협동"],
     "spec": "고사양",
-    "short": "선택지와 전투 전략이 강한 파티 기반 RPG."
+    "short": "선택지와 전투 전략이 강한 파티 기반 RPG.",
+    "currentPrice": 52800,
+    "normalPrice": 66000,
+    "discount": 20,
+    "currency": "KRW",
+    "saleEnds": null,
+    "priceSynced": false,
+    "historicalLow": 46200,
+    "historicalLowGap": 14,
+    "saleCycleDays": 89
   },
   {
     "appId": 1145360,
     "koreanTitle": "하데스",
-    "tags": [
-      "로그라이크",
-      "액션",
-      "싱글",
-      "저사양",
-      "인디"
-    ],
+    "tags": ["로그라이크", "액션", "싱글", "저사양", "인디"],
     "genre": "로그라이크",
-    "mode": [
-      "싱글"
-    ],
+    "mode": ["싱글"],
     "spec": "저사양",
-    "short": "빠른 전투와 반복 성장 맛이 좋은 로그라이크 액션."
+    "short": "빠른 전투와 반복 성장의 완성도가 높은 로그라이크 액션.",
+    "currentPrice": 10800,
+    "normalPrice": 27000,
+    "discount": 60,
+    "currency": "KRW",
+    "saleEnds": "2026-06-04T15:00:00.000Z",
+    "priceSynced": false,
+    "historicalLow": 8100,
+    "historicalLowGap": 33,
+    "saleCycleDays": 49
   },
   {
     "appId": 322330,
     "koreanTitle": "돈 스타브 투게더",
-    "tags": [
-      "협동",
-      "생존",
-      "저사양",
-      "크래프팅",
-      "멀티"
-    ],
+    "tags": ["협동", "생존", "저사양", "크래프팅", "멀티"],
     "genre": "생존",
-    "mode": [
-      "협동"
-    ],
+    "mode": ["협동", "멀티"],
     "spec": "저사양",
-    "short": "친구와 함께 버티는 생존 크래프팅 게임."
+    "short": "친구와 함께 자원을 모으고 계절을 버티는 생존 크래프팅 게임.",
+    "currentPrice": 5200,
+    "normalPrice": 15500,
+    "discount": 66,
+    "currency": "KRW",
+    "saleEnds": "2026-05-29T15:00:00.000Z",
+    "priceSynced": false,
+    "historicalLow": 3900,
+    "historicalLowGap": 33,
+    "saleCycleDays": 37
   },
   {
     "appId": 632360,
     "koreanTitle": "리스크 오브 레인 2",
-    "tags": [
-      "로그라이크",
-      "협동",
-      "액션",
-      "중사양",
-      "슈터"
-    ],
+    "tags": ["로그라이크", "협동", "액션", "중사양", "슈터"],
     "genre": "로그라이크",
-    "mode": [
-      "싱글",
-      "협동"
-    ],
+    "mode": ["싱글", "협동"],
     "spec": "중사양",
-    "short": "템 조합과 속도감이 좋은 3D 로그라이크 협동 액션."
+    "short": "아이템 조합과 속도감이 강한 3D 협동 로그라이크.",
+    "currentPrice": 13000,
+    "normalPrice": 26000,
+    "discount": 50,
+    "currency": "KRW",
+    "saleEnds": null,
+    "priceSynced": false,
+    "historicalLow": 9100,
+    "historicalLowGap": 43,
+    "saleCycleDays": 54
   },
   {
     "appId": 548430,
     "koreanTitle": "딥 락 갤럭틱",
-    "tags": [
-      "협동",
-      "FPS",
-      "멀티",
-      "중사양",
-      "액션"
-    ],
+    "tags": ["협동", "FPS", "멀티", "중사양", "액션"],
     "genre": "액션",
-    "mode": [
-      "협동"
-    ],
+    "mode": ["협동", "멀티"],
     "spec": "중사양",
-    "short": "광물 채굴과 전투를 같이 하는 4인 협동 FPS."
+    "short": "광물을 캐고 적을 막는 4인 협동 FPS.",
+    "currentPrice": 9900,
+    "normalPrice": 33000,
+    "discount": 70,
+    "currency": "KRW",
+    "saleEnds": "2026-06-08T15:00:00.000Z",
+    "priceSynced": false,
+    "historicalLow": 8200,
+    "historicalLowGap": 21,
+    "saleCycleDays": 39
   },
   {
     "appId": 588650,
     "koreanTitle": "데드 셀",
-    "tags": [
-      "로그라이크",
-      "액션",
-      "저사양",
-      "싱글",
-      "인디"
-    ],
+    "tags": ["로그라이크", "액션", "저사양", "싱글", "인디"],
     "genre": "로그라이크",
-    "mode": [
-      "싱글"
-    ],
+    "mode": ["싱글"],
     "spec": "저사양",
-    "short": "빠른 컨트롤과 반복 도전이 강한 2D 로그라이크 액션."
+    "short": "빠른 조작감과 반복 도전이 강한 2D 로그라이크 액션.",
+    "currentPrice": 9300,
+    "normalPrice": 31000,
+    "discount": 70,
+    "currency": "KRW",
+    "saleEnds": "2026-05-30T15:00:00.000Z",
+    "priceSynced": false,
+    "historicalLow": 7750,
+    "historicalLowGap": 20,
+    "saleCycleDays": 41
   },
   {
     "appId": 1174180,
     "koreanTitle": "레드 데드 리뎀션 2",
-    "tags": [
-      "오픈월드",
-      "스토리",
-      "싱글",
-      "액션",
-      "고사양"
-    ],
+    "tags": ["오픈월드", "스토리", "싱글", "액션", "고사양"],
     "genre": "액션",
-    "mode": [
-      "싱글",
-      "온라인"
-    ],
+    "mode": ["싱글", "온라인"],
     "spec": "고사양",
-    "short": "서부극 분위기와 몰입감이 강한 대형 오픈월드 게임."
+    "short": "서부극 분위기와 몰입감이 강한 대형 오픈월드 게임.",
+    "currentPrice": 22000,
+    "normalPrice": 66000,
+    "discount": 67,
+    "currency": "KRW",
+    "saleEnds": null,
+    "priceSynced": false,
+    "historicalLow": 19800,
+    "historicalLowGap": 11,
+    "saleCycleDays": 46
   },
   {
     "appId": 892970,
     "koreanTitle": "발헤임",
-    "tags": [
-      "생존",
-      "협동",
-      "건축",
-      "탐험",
-      "중사양"
-    ],
+    "tags": ["생존", "협동", "건축", "탐험", "중사양"],
     "genre": "생존",
-    "mode": [
-      "싱글",
-      "협동"
-    ],
+    "mode": ["싱글", "협동"],
     "spec": "중사양",
-    "short": "탐험, 건축, 보스전이 있는 협동 생존 게임."
+    "short": "탐험, 건축, 보스 공략이 있는 협동 생존 게임.",
+    "currentPrice": 10300,
+    "normalPrice": 20500,
+    "discount": 50,
+    "currency": "KRW",
+    "saleEnds": "2026-06-02T15:00:00.000Z",
+    "priceSynced": false,
+    "historicalLow": 8200,
+    "historicalLowGap": 26,
+    "saleCycleDays": 61
   },
   {
     "appId": 227300,
     "koreanTitle": "유로 트럭 시뮬레이터 2",
-    "tags": [
-      "시뮬레이션",
-      "힐링",
-      "저사양",
-      "싱글",
-      "운전"
-    ],
+    "tags": ["시뮬레이션", "운전", "저사양", "싱글", "멀티"],
     "genre": "시뮬레이션",
-    "mode": [
-      "싱글",
-      "멀티"
-    ],
+    "mode": ["싱글", "멀티"],
     "spec": "저사양",
-    "short": "운전과 배송을 편하게 즐기는 트럭 시뮬레이션."
+    "short": "운전과 배송을 편하게 즐기는 트럭 시뮬레이션.",
+    "currentPrice": 6200,
+    "normalPrice": 24800,
+    "discount": 75,
+    "currency": "KRW",
+    "saleEnds": "2026-05-31T15:00:00.000Z",
+    "priceSynced": false,
+    "historicalLow": 4950,
+    "historicalLowGap": 25,
+    "saleCycleDays": 34
   },
   {
     "appId": 646570,
     "koreanTitle": "슬레이 더 스파이어",
-    "tags": [
-      "로그라이크",
-      "카드",
-      "전략",
-      "저사양",
-      "싱글"
-    ],
+    "tags": ["로그라이크", "카드", "전략", "저사양", "싱글"],
     "genre": "로그라이크",
-    "mode": [
-      "싱글"
-    ],
+    "mode": ["싱글"],
     "spec": "저사양",
-    "short": "카드 덱을 만들며 진행하는 전략 로그라이크."
-  },
-  {
-    "appId": 1366540,
-    "koreanTitle": "다이슨 스피어 프로그램",
-    "tags": [
-      "자동화",
-      "시뮬레이션",
-      "싱글",
-      "중사양",
-      "장기플레이"
-    ],
-    "genre": "시뮬레이션",
-    "mode": [
-      "싱글"
-    ],
-    "spec": "중사양",
-    "short": "우주 공장 자동화를 확장해 나가는 시뮬레이션."
+    "short": "카드 덱을 만들며 진행하는 전략 로그라이크.",
+    "currentPrice": 8100,
+    "normalPrice": 27000,
+    "discount": 70,
+    "currency": "KRW",
+    "saleEnds": null,
+    "priceSynced": false,
+    "historicalLow": 6750,
+    "historicalLowGap": 20,
+    "saleCycleDays": 38
   }
 ]

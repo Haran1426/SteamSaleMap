@@ -6,6 +6,7 @@ const STEAM_LANGUAGE = process.env.STEAM_LANGUAGE || "korean";
 const ITAD_KEY = process.env.ITAD_API_KEY || "";
 const ITAD_COUNTRY = process.env.ITAD_COUNTRY || "KR";
 const STEAM_SHOP_ID = 61;
+const API_TIMEOUT_MS = Number(process.env.API_TIMEOUT_MS || 8000);
 
 exports.handler = async () => {
     try {
@@ -37,9 +38,9 @@ exports.handler = async () => {
 
 async function loadSteamApp(game) {
     const url = `https://store.steampowered.com/api/appdetails?appids=${game.appId}&cc=${STEAM_COUNTRY}&l=${STEAM_LANGUAGE}`;
-    const res = await fetch(url, { headers: { "User-Agent": "steam-sale-picker/1.0" } });
-    if (!res.ok) throw new Error(`Steam ${game.appId} ${res.status}`);
-    const data = await res.json();
+    const data = await fetchJson(url, {
+        headers: { "User-Agent": "steam-sale-picker/1.0" }
+    }, `Steam ${game.appId}`);
     const appData = data?.[game.appId]?.data;
     if (!data?.[game.appId]?.success || !appData) throw new Error(`Steam appdetails failed ${game.appId}`);
     return appData;
@@ -80,9 +81,7 @@ async function attachItadData(games) {
     const withIds = await Promise.all(games.map(async game => {
         try {
             const lookupUrl = `https://api.isthereanydeal.com/games/lookup/v1?key=${encodeURIComponent(ITAD_KEY)}&appid=${game.appId}`;
-            const res = await fetch(lookupUrl);
-            if (!res.ok) return game;
-            const data = await res.json();
+            const data = await fetchJson(lookupUrl, {}, `ITAD lookup ${game.appId}`);
             return { ...game, itadId: data?.id || null };
         } catch {
             return game;
@@ -129,13 +128,31 @@ async function attachItadData(games) {
 
 async function postItad(endpoint, body, query = "") {
     const url = `${endpoint}?key=${encodeURIComponent(ITAD_KEY)}${query ? `&${query}` : ""}`;
-    const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-    });
-    if (!res.ok) return [];
-    return res.json();
+    try {
+        return await fetchJson(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        }, "ITAD post");
+    } catch {
+        return [];
+    }
+}
+
+async function fetchJson(url, options = {}, label = "request") {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+
+    try {
+        const res = await fetch(url, {
+            ...options,
+            signal: controller.signal
+        });
+        if (!res.ok) throw new Error(`${label} ${res.status}`);
+        return res.json();
+    } finally {
+        clearTimeout(timeout);
+    }
 }
 
 async function loadHistories(ids) {
@@ -143,9 +160,7 @@ async function loadHistories(ids) {
     const jobs = ids.map(async id => {
         try {
             const url = `https://api.isthereanydeal.com/games/history/v2?key=${encodeURIComponent(ITAD_KEY)}&id=${id}&country=${ITAD_COUNTRY}&shops=${STEAM_SHOP_ID}&since=${encodeURIComponent(since)}`;
-            const res = await fetch(url);
-            if (!res.ok) return { id, history: [] };
-            const history = await res.json();
+            const history = await fetchJson(url, {}, `ITAD history ${id}`);
             return { id, history: Array.isArray(history) ? history : [] };
         } catch {
             return { id, history: [] };
