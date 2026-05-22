@@ -1,79 +1,121 @@
-# 게임세일러
+# GameSailor
 
-Steam 게임의 현재 할인 정보를 수집하고, 가격 이력과 구매 추천 점수로 정렬하는 포트폴리오용 웹 대시보드입니다.
+Steam 할인 게임을 수집하고, 현재가/할인율/가격 이력/추천 점수 기준으로 정렬하는 포트폴리오용 대시보드입니다. ECODOOBIZ 지원용으로 외부 API 연동, 서버리스 함수, 데이터 fallback, 필터/정렬 UI를 보여주기 위해 만든 프로젝트입니다.
 
-## 핵심 기능
+## 현재 상태
 
-- Steam Store API 기반 현재가, 정가, 할인율, 할인 종료일 조회
-- Steam 현재 할인 목록 자동 수집 및 큐레이션 목록과 병합
-- IsThereAnyDeal API 키가 있을 때 역대 최저가, 최저가 차이, 최근 가격 이력 추가
-- 할인율, 최저가 차이, 할인 주기, 가격 구간을 합산한 추천 점수
-- 장르, 플레이 방식, 사양, 태그, 검색어 기반 필터링
-- CSV 내보내기와 샘플 데이터 fallback
-- Netlify Functions 기반 서버리스 API 프록시 및 1시간 캐시
+- GitHub 저장소: `https://github.com/Haran1426/SteamSaleMap`
+- 기존 Netlify 주소: `https://steam-sale-map.netlify.app/`
+- 현재 Netlify 상태: 사용량 제한(`usage_exceeded`)으로 일시 차단됨
+- 마지막으로 확인한 정상 기능:
+  - Steam 실시간 할인 목록 수집
+  - IsThereAnyDeal(ITAD) 게임 ID 매칭
+  - 일부 게임의 최근 가격 이력 표시
+  - Steam 설명/이미지 기반 상세 모달
+  - Vercel용 API fallback 추가 완료
 
-## 기술 스택
+Netlify 주소가 막혀 있으면 코드 문제가 아니라 Netlify 플랜/사용량 제한 문제입니다. 당장 포트폴리오 링크가 필요하면 Vercel로 새로 배포하는 것이 빠릅니다.
 
-- Frontend: HTML, CSS, Vanilla JavaScript
-- Backend: Netlify Functions
-- External APIs: Steam Store API, IsThereAnyDeal API
-- Deploy: Netlify
+## 배포 권장: Vercel
 
-## 화면
+이 저장소는 Netlify Functions와 Vercel Serverless Functions를 모두 지원합니다.
 
-![게임세일러 대시보드](assets/dashboard-preview.png)
+Vercel에서 이어서 배포하는 순서:
 
-## 실행
+1. Vercel에 로그인
+2. `Add New Project`
+3. GitHub 저장소 `Haran1426/SteamSaleMap` 선택
+4. Framework Preset은 `Other` 또는 자동 감지 그대로 사용
+5. Build Command는 비워두거나 기본값 사용
+6. Output Directory도 비워둠
+7. Environment Variables에 아래 값 추가
+8. Deploy
 
-```bash
-npm install
-npm run dev
-```
-
-접속 주소:
-
-https://steam-sale-map.netlify.app/
-
-정적 파일만 열어도 `games.json` 샘플 데이터로 화면을 확인할 수 있습니다.
-
-## 환경 변수
-
-Steam 현재가만 볼 경우 환경 변수 없이 동작합니다.
+필수 환경변수:
 
 ```txt
 ITAD_API_KEY=본인 IsThereAnyDeal API 키
 ITAD_COUNTRY=KR
 STEAM_COUNTRY=kr
 STEAM_LANGUAGE=korean
-STEAM_SPECIALS_LIMIT=40
 ```
 
-## 구조
+선택 환경변수:
+
+```txt
+STEAM_SPECIALS_LIMIT=40
+ITAD_HISTORY_LIMIT=16
+ITAD_HISTORY_CONCURRENCY=4
+API_TIMEOUT_MS=8000
+```
+
+Vercel 배포 후 프론트는 `/api/live-games`를 통해 실시간 데이터를 가져옵니다. Netlify에서 실행될 때는 `/.netlify/functions/live-games`를 먼저 시도하고, 실패하면 `/api/live-games`를 시도합니다.
+
+## 로컬 실행
+
+정적 화면만 확인:
+
+```bash
+python -m http.server 5173 --bind 127.0.0.1
+```
+
+접속:
+
+```txt
+http://127.0.0.1:5173
+```
+
+Netlify 함수까지 로컬로 확인하려면:
+
+```bash
+npm install
+npm run dev
+```
+
+## 주요 파일
 
 ```txt
 index.html                         화면 구조
-style.css                          반응형 대시보드 스타일
-main.js                            필터, 정렬, 추천 점수, CSV 내보내기
-games.json                         직접 큐레이션한 게임 마스터 데이터
+style.css                          반응형 UI, 카드, 모달, 스크롤바 스타일
+main.js                            데이터 로드, 필터, 정렬, 모달, CSV export
+games.json                         직접 큐레이션한 기본 게임 데이터
 netlify/functions/live-games.js    Steam/ITAD API 병합 함수
-netlify.toml                       Netlify 설정
+api/live-games.js                  Vercel용 API 래퍼
+netlify.toml                       Netlify 함수 패키징 설정
 package.json                       개발 스크립트
 ```
 
-## 포트폴리오 포인트
+## 데이터 흐름
 
-이 프로젝트는 단순 목록 페이지가 아니라 외부 가격 데이터를 상품 마스터 데이터와 병합하고, Steam 현재 할인 목록까지 자동으로 붙여 비즈니스 룰로 추천 결과를 계산하는 작은 데이터 대시보드입니다. 이커머스, ERP, 가격 정책, 상품 관리 화면으로 확장하기 좋은 구조를 의도했습니다.
+1. 프론트가 실시간 API를 호출합니다.
+2. 서버리스 함수가 Steam featured categories와 Steam appdetails를 호출합니다.
+3. `games.json`의 큐레이션 데이터와 Steam 실시간 할인 목록을 병합합니다.
+4. `ITAD_API_KEY`가 있으면 ITAD에서 게임 ID, 역대 최저가, 최근 가격 이력을 가져옵니다.
+5. 프론트에서 할인율, 최저가 차이, 종료일, 태그를 기반으로 추천 점수를 계산/표시합니다.
+6. API 실패 시 `games.json` 샘플 데이터로 fallback합니다.
 
-ECODOOBIZ 지원용으로는 다음 역량을 강조할 수 있습니다.
+## 최근 수정 내역
 
-- 외부 API를 서버리스 함수에서 통합하고 자동 수집 데이터와 마스터 데이터를 병합한 경험
-- API 실패 시 샘플 데이터로 전환하는 장애 대응
-- 가격/할인/최저가를 기준으로 구매 판단 규칙을 설계한 경험
-- 운영자가 확인할 수 있는 동기화 상태와 CSV export 제공
+- Netlify 함수에서 `games.json`을 읽지 못하던 문제 수정
+- ITAD Steam app lookup ID 형식을 `app/{steamAppId}`로 수정
+- ITAD 가격 이력 API의 `since` 날짜 형식 수정
+- ITAD 가격 금액을 원화 기준으로 올바르게 표시하도록 수정
+- 상세 모달 설명을 Steam `short_description` 기반으로 표시
+- 가격 이력이 없는 게임의 안내 문구 수정
+- Netlify 사용량 초과에 대비해 Vercel `/api/live-games` fallback 추가
+
+## 포트폴리오 어필 포인트
+
+- 단순 정적 페이지가 아니라 외부 API와 자체 큐레이션 데이터를 병합하는 대시보드
+- Steam API 실패 시 샘플 데이터로 전환하는 fallback 구조
+- ITAD API를 이용한 가격 이력/최저가 기반 추천 로직
+- 필터, 검색, 정렬, 상세 모달, CSV export 등 운영형 UI 구성
+- Netlify와 Vercel 양쪽 서버리스 환경을 고려한 배포 구조
 
 ## 다음 개선 후보
 
-- Odoo Product/Price List 형태로 데이터를 내보내는 샘플 모듈 추가
-- API 요청 timeout, retry, rate-limit 방어 강화
-- 추천 점수와 필터링 로직 단위 테스트 추가
 - 가격 이력 차트 시각화
+- 추천 점수 계산 로직 단위 테스트
+- Steam/ITAD API rate-limit 대응 강화
+- Odoo Product/Price List 형식으로 CSV export 확장
+- Netlify 사용량 제한 회피를 위한 Vercel/Cloudflare Pages 배포 안정화
