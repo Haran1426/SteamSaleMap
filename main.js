@@ -7,7 +7,8 @@ const state = {
     spec: "all",
     sort: "dealScore",
     tag: "all",
-    source: "loading"
+    source: "loading",
+    itadEnabled: false
 };
 
 const els = {
@@ -39,6 +40,7 @@ async function loadLiveGames() {
         const payload = await fetchLivePayload();
         state.games = normalizeGames(payload.games || []);
         state.source = payload.source || "live";
+        state.itadEnabled = Boolean(payload.itadEnabled);
         setupFilters();
         applyFilters();
         updateSyncUi(payload);
@@ -302,9 +304,7 @@ function openModal(appId) {
             </div>
             <h3>가격 이력</h3>
             <div class="history-list">
-                ${(game.priceHistory || []).length
-                    ? game.priceHistory.map(item => `<div class="history-item"><span>${formatDate(item.timestamp)}</span><strong>-${item.cut}% · ${formatPrice(item.price, item.currency)}</strong></div>`).join("")
-                    : "<p class='desc'>ITAD_API_KEY를 설정하면 최근 가격 이력이 표시됩니다.</p>"}
+                ${renderPriceHistory(game)}
             </div>
             <div class="card-actions modal-actions">
                 <a href="https://store.steampowered.com/app/${game.appId}" target="_blank" rel="noopener">Steam에서 보기</a>
@@ -314,6 +314,20 @@ function openModal(appId) {
     `;
     els.modal.classList.add("active");
     els.modal.setAttribute("aria-hidden", "false");
+}
+
+function renderPriceHistory(game) {
+    if ((game.priceHistory || []).length) {
+        return game.priceHistory
+            .map(item => `<div class="history-item"><span>${formatDate(item.timestamp)}</span><strong>-${item.cut}% · ${formatPrice(item.price, item.currency)}</strong></div>`)
+            .join("");
+    }
+
+    if (state.itadEnabled) {
+        return "<p class='desc'>최근 Steam 가격 변동 이력이 아직 충분하지 않습니다.</p>";
+    }
+
+    return "<p class='desc'>가격 이력 연동을 준비 중입니다. 현재는 Steam 실시간 가격 기준으로 추천 점수를 계산합니다.</p>";
 }
 
 function closeModal() {

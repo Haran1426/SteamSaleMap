@@ -121,14 +121,10 @@ function mergeSteam(game, steam) {
 }
 
 async function attachItadData(games) {
-    const withIds = await Promise.all(games.map(async game => {
-        try {
-            const lookupUrl = `https://api.isthereanydeal.com/games/lookup/v1?key=${encodeURIComponent(ITAD_KEY)}&appid=${game.appId}`;
-            const data = await fetchJson(lookupUrl, {}, `ITAD lookup ${game.appId}`);
-            return { ...game, itadId: data?.id || null };
-        } catch {
-            return game;
-        }
+    const lookup = await lookupItadIds(games);
+    const withIds = games.map(game => ({
+        ...game,
+        itadId: lookup.get(String(game.appId)) || game.itadId || null
     }));
 
     const ids = withIds.map(game => game.itadId).filter(Boolean);
@@ -179,6 +175,21 @@ async function postItad(endpoint, body, query = "") {
         }, "ITAD post");
     } catch {
         return [];
+    }
+}
+
+async function lookupItadIds(games) {
+    try {
+        const appIds = games.map(game => String(game.appId));
+        const url = `https://api.isthereanydeal.com/lookup/id/shop/${STEAM_SHOP_ID}/v1?key=${encodeURIComponent(ITAD_KEY)}`;
+        const data = await fetchJson(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(appIds)
+        }, "ITAD Steam app lookup");
+        return new Map(Object.entries(data || {}).map(([appId, itadId]) => [appId, itadId]));
+    } catch {
+        return new Map();
     }
 }
 
