@@ -1,5 +1,4 @@
-const fs = require("fs");
-const path = require("path");
+const baseGames = require("../../games.json");
 
 const STEAM_COUNTRY = process.env.STEAM_COUNTRY || "kr";
 const STEAM_LANGUAGE = process.env.STEAM_LANGUAGE || "korean";
@@ -11,8 +10,6 @@ const STEAM_SPECIALS_LIMIT = Number(process.env.STEAM_SPECIALS_LIMIT || 40);
 
 exports.handler = async () => {
     try {
-        const gamesPath = path.join(__dirname, "../../games.json");
-        const baseGames = JSON.parse(fs.readFileSync(gamesPath, "utf8"));
         const liveSpecials = await loadSteamSpecials();
         const catalog = mergeCatalog(baseGames, liveSpecials);
 
