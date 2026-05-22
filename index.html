@@ -138,42 +138,121 @@
                 <p>검색어를 줄이거나 필터를 전체로 바꿔보세요.</p>
             </section>
 
-            <section class="rule-panel">
-                <div>
-                    <p class="eyebrow">추천 기준</p>
-                    <h2>구매 추천 점수</h2>
-                    <p>할인율, 역대 최저가와의 차이, 평균 할인 주기, 현재 가격 구간을 합산해 정렬합니다.</p>
+            <section class="score-section">
+                <div class="score-header">
+                    <span class="section-eyebrow">추천 기준</span>
+                    <h2 class="section-title">구매 추천 점수</h2>
+                    <p class="section-desc">
+                        할인율, 역대 최저가와의 차이, 평균 할인 주기, 현재 가격 구간을 합산해 정렬합니다.
+                    </p>
                 </div>
-                <div class="rule-list">
-                    <span>할인율 가중치 1.8</span>
-                    <span>최저가 근접 보너스</span>
-                    <span>짧은 할인 주기 보너스</span>
-                    <span>1만원 이하 가격 보너스</span>
+
+                <div class="score-formula">
+                    <div class="score-factor">
+                        <div class="score-factor-icon">%</div>
+                        <div class="score-factor-body">
+                            <span class="score-factor-weight">×1.8</span>
+                            <span class="score-factor-label">할인율</span>
+                            <span class="score-factor-desc">현재 할인율이 높을수록 가중</span>
+                        </div>
+                    </div>
+
+                    <span class="score-plus" aria-hidden="true">+</span>
+
+                    <div class="score-factor">
+                        <div class="score-factor-icon">↓</div>
+                        <div class="score-factor-body">
+                            <span class="score-factor-weight">보너스</span>
+                            <span class="score-factor-label">최저가 근접</span>
+                            <span class="score-factor-desc">역대 최저가 10% 이내면 추가</span>
+                        </div>
+                    </div>
+
+                    <span class="score-plus" aria-hidden="true">+</span>
+
+                    <div class="score-factor">
+                        <div class="score-factor-icon">⟳</div>
+                        <div class="score-factor-body">
+                            <span class="score-factor-weight">보너스</span>
+                            <span class="score-factor-label">짧은 할인 주기</span>
+                            <span class="score-factor-desc">30일 이내 반복 할인이면 추가</span>
+                        </div>
+                    </div>
+
+                    <span class="score-plus" aria-hidden="true">+</span>
+
+                    <div class="score-factor">
+                        <div class="score-factor-icon">₩</div>
+                        <div class="score-factor-body">
+                            <span class="score-factor-weight">보너스</span>
+                            <span class="score-factor-label">1만원 이하</span>
+                            <span class="score-factor-desc">저가 구간은 진입 장벽 낮음</span>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <section class="guide" id="guide">
-                <div class="section-head">
-                    <p class="eyebrow">데이터 연동</p>
-                    <h2>데이터 연동 구조</h2>
+            <section class="pipeline-section" id="guide">
+                <div class="pipeline-header">
+                    <span class="section-eyebrow">데이터 연동</span>
+                    <h2 class="section-title">데이터 흐름 구조</h2>
                 </div>
-                <div class="guide-grid">
-                    <article>
-                        <h3>Steam 할인 목록</h3>
-                        <p>현재 할인 목록을 자동 수집하고 큐레이션 데이터와 병합합니다.</p>
-                    </article>
-                    <article>
-                        <h3>가격 동기화</h3>
-                        <p>Steam Store 데이터로 현재가, 정가, 할인율, 종료일을 갱신합니다.</p>
-                    </article>
-                    <article>
-                        <h3>가격 이력</h3>
-                        <p>ITAD API 키가 있으면 역대 최저가와 최근 가격 이력을 추가합니다.</p>
-                    </article>
-                    <article>
-                        <h3>장애 대응</h3>
-                        <p>API 실패 시 샘플 데이터로 전환해 화면이 비지 않게 유지합니다.</p>
-                    </article>
+
+                <div class="pipeline-steps">
+                    <div class="pipeline-step">
+                        <div class="step-num">01</div>
+                        <div class="step-body">
+                            <h3 class="step-title">Steam 할인 목록 수집</h3>
+                            <p class="step-desc">
+                                현재 할인 목록을 자동 수집하고 큐레이션 데이터와 병합합니다.
+                            </p>
+                            <span class="step-tag">Steam Store API</span>
+                        </div>
+                    </div>
+
+                    <div class="pipeline-arrow" aria-hidden="true">→</div>
+
+                    <div class="pipeline-step">
+                        <div class="step-num">02</div>
+                        <div class="step-body">
+                            <h3 class="step-title">가격 동기화</h3>
+                            <p class="step-desc">
+                                Steam Store 데이터로 현재가, 정가, 할인율, 종료일을 갱신합니다.
+                            </p>
+                            <span class="step-tag">실시간 업데이트</span>
+                        </div>
+                    </div>
+
+                    <div class="pipeline-arrow" aria-hidden="true">→</div>
+
+                    <div class="pipeline-step">
+                        <div class="step-num">03</div>
+                        <div class="step-body">
+                            <h3 class="step-title">가격 이력 추가</h3>
+                            <p class="step-desc">
+                                ITAD API 키가 있으면 역대 최저가와 최근 가격 이력을 추가합니다.
+                            </p>
+                            <span class="step-tag">IsThereAnyDeal API</span>
+                        </div>
+                    </div>
+
+                    <div class="pipeline-arrow" aria-hidden="true">→</div>
+
+                    <div class="pipeline-step step-fallback">
+                        <div class="step-num">↻</div>
+                        <div class="step-body">
+                            <h3 class="step-title">장애 대응</h3>
+                            <p class="step-desc">
+                                API 실패 시 샘플 데이터로 전환해 화면이 비지 않게 유지합니다.
+                            </p>
+                            <span class="step-tag step-tag-amber">Fallback</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pipeline-footer">
+                    <span class="footer-dot"></span>
+                    Netlify Functions 기반 서버리스 프록시 &nbsp;·&nbsp; 1시간 캐시
                 </div>
             </section>
         </main>
