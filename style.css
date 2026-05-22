@@ -701,30 +701,34 @@ h1 span {
 .meta-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin: 12px 0;
+    gap: 10px;
+    margin: 14px 0;
 }
 
 .meta-box {
-    min-height: 58px;
-    border: 1px solid var(--border-default);
+    min-height: 64px;
+    border: 1px solid rgba(100, 160, 220, .2);
     border-radius: 8px;
-    padding: 10px;
-    background: rgba(10, 18, 32, .62);
+    padding: 11px 12px;
+    background: rgba(10, 18, 32, .78);
 }
 
 .meta-box span {
     display: block;
-    color: var(--text-muted);
-    font-size: 11px;
+    color: #a8bed0;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.25;
 }
 
 .meta-box strong {
     display: block;
-    margin-top: 4px;
-    color: var(--text-primary);
+    margin-top: 7px;
+    color: #f0f6fb;
     font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
 }
 
 .meta-box:nth-child(2) strong {
