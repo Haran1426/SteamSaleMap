@@ -327,7 +327,7 @@ function renderPriceHistory(game) {
         return "<p class='desc'>이 게임은 최근 2년 내 Steam 가격 변동 기록이 아직 충분하지 않습니다. 현재 추천 점수는 실시간 가격, 할인율, 종료일을 기준으로 계산됩니다.</p>";
     }
 
-    return "<p class='desc'>가격 이력 데이터를 불러오는 중입니다. 잠시 후에도 표시되지 않으면 실시간 Steam 가격 기준으로 먼저 확인할 수 있습니다.</p>";
+    return "<p class='desc'>이 게임은 아직 표시할 가격 이력이 충분하지 않습니다. 현재 추천 점수는 실시간 Steam 가격, 할인율, 종료일을 기준으로 계산됩니다.</p>";
 }
 
 function closeModal() {
