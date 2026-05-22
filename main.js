@@ -99,7 +99,7 @@ function updateSyncUi(payload) {
         payload.itadEnabled ? "정상" : "Steam",
         payload.itadEnabled
             ? `Steam 현재가와 ITAD 가격 이력을 함께 반영했습니다.${liveNote}`
-            : `Steam 현재가와 현재 할인 목록을 반영했습니다.${liveNote} ITAD_API_KEY를 설정하면 최저가와 할인 주기가 추가됩니다.`
+            : `Steam 현재가와 현재 할인 목록을 반영했습니다.${liveNote} 가격 이력은 준비되는 대로 함께 표시됩니다.`
     );
 }
 
