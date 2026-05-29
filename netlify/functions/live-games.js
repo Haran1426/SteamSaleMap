@@ -7,7 +7,7 @@ const ITAD_COUNTRY = process.env.ITAD_COUNTRY || "KR";
 const STEAM_SHOP_ID = 61;
 const API_TIMEOUT_MS = Number(process.env.API_TIMEOUT_MS || 8000);
 const STEAM_SPECIALS_LIMIT = Number(process.env.STEAM_SPECIALS_LIMIT || 40);
-const ITAD_HISTORY_LIMIT = Number(process.env.ITAD_HISTORY_LIMIT || 16);
+const ITAD_HISTORY_LIMIT = Number(process.env.ITAD_HISTORY_LIMIT || 60);
 const ITAD_HISTORY_CONCURRENCY = Number(process.env.ITAD_HISTORY_CONCURRENCY || 4);
 
 exports.handler = async () => {
@@ -163,12 +163,7 @@ async function attachItadData(games) {
             historicalLowCurrency: steamLow?.price?.currency || game.currency,
             historicalLowGap,
             saleCycleDays,
-            priceHistory: history.slice(0, 8).map(item => ({
-                timestamp: item.timestamp,
-                price: readItadAmount(item.deal?.price),
-                currency: item.deal?.price?.currency || game.currency,
-                cut: item.deal?.cut || 0
-            }))
+            priceHistory: buildPriceHistory(game, history, steamLow, historicalLow)
         };
     });
 }
@@ -245,6 +240,41 @@ function readItadAmount(price) {
     if (typeof price.amount === "number") return price.amount;
     if (typeof price.amountInt === "number") return price.amountInt / 100;
     return null;
+}
+
+function buildPriceHistory(game, history, steamLow, historicalLow) {
+    const rows = history.slice(0, 8).map(item => ({
+        timestamp: item.timestamp,
+        price: readItadAmount(item.deal?.price),
+        currency: item.deal?.price?.currency || game.currency,
+        cut: item.deal?.cut || 0,
+        label: null
+    })).filter(item => Number.isFinite(item.price));
+
+    if (rows.length) return rows;
+
+    const fallback = [];
+    if (Number.isFinite(game.currentPrice)) {
+        fallback.push({
+            label: "현재 Steam 가격",
+            timestamp: game.saleEnds || new Date().toISOString(),
+            price: game.currentPrice,
+            currency: game.currency,
+            cut: game.discount || 0
+        });
+    }
+
+    if (Number.isFinite(historicalLow)) {
+        fallback.push({
+            label: "Steam 역대 최저가",
+            timestamp: steamLow?.timestamp || null,
+            price: historicalLow,
+            currency: steamLow?.price?.currency || game.currency,
+            cut: steamLow?.cut || 0
+        });
+    }
+
+    return fallback;
 }
 
 function calculateSaleCycle(history) {

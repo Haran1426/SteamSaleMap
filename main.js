@@ -336,7 +336,7 @@ function openModal(appId) {
 function renderPriceHistory(game) {
     if ((game.priceHistory || []).length) {
         return game.priceHistory
-            .map(item => `<div class="history-item"><span>${formatDate(item.timestamp)}</span><strong>-${item.cut}% · ${formatPrice(item.price, item.currency)}</strong></div>`)
+            .map(item => `<div class="history-item"><span>${escapeHtml(item.label || formatDate(item.timestamp))}</span><strong>-${item.cut}% · ${formatPrice(item.price, item.currency)}</strong></div>`)
             .join("");
     }
 
