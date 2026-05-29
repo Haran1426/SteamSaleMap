@@ -43,8 +43,12 @@ STEAM_LANGUAGE=korean
 선택 환경변수:
 
 ```txt
-STEAM_SPECIALS_LIMIT=40
-ITAD_HISTORY_LIMIT=16
+STEAM_SPECIALS_LIMIT=400
+STEAM_SEARCH_PAGE_SIZE=100
+STEAM_APPDETAILS_BATCH_SIZE=25
+STEAM_APPDETAILS_CONCURRENCY=4
+ITAD_BATCH_SIZE=100
+ITAD_HISTORY_LIMIT=60
 ITAD_HISTORY_CONCURRENCY=4
 API_TIMEOUT_MS=8000
 ```
@@ -103,6 +107,7 @@ package.json                       개발 스크립트
 - 상세 모달 설명을 Steam `short_description` 기반으로 표시
 - 가격 이력이 없는 게임의 안내 문구 수정
 - Netlify 사용량 초과에 대비해 Vercel `/api/live-games` fallback 추가
+- Steam 할인 검색 결과를 페이지 단위로 수집해 기본 게임 수를 약 400개까지 확장
 
 ## 포트폴리오 어필 포인트
 

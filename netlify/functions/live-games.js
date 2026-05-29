@@ -6,7 +6,11 @@ const ITAD_KEY = process.env.ITAD_API_KEY || "";
 const ITAD_COUNTRY = process.env.ITAD_COUNTRY || "KR";
 const STEAM_SHOP_ID = 61;
 const API_TIMEOUT_MS = Number(process.env.API_TIMEOUT_MS || 8000);
-const STEAM_SPECIALS_LIMIT = Number(process.env.STEAM_SPECIALS_LIMIT || 40);
+const STEAM_SPECIALS_LIMIT = Number(process.env.STEAM_SPECIALS_LIMIT || 400);
+const STEAM_SEARCH_PAGE_SIZE = Number(process.env.STEAM_SEARCH_PAGE_SIZE || 100);
+const STEAM_APPDETAILS_BATCH_SIZE = Number(process.env.STEAM_APPDETAILS_BATCH_SIZE || 25);
+const STEAM_APPDETAILS_CONCURRENCY = Number(process.env.STEAM_APPDETAILS_CONCURRENCY || 4);
+const ITAD_BATCH_SIZE = Number(process.env.ITAD_BATCH_SIZE || 100);
 const ITAD_HISTORY_LIMIT = Number(process.env.ITAD_HISTORY_LIMIT || 60);
 const ITAD_HISTORY_CONCURRENCY = Number(process.env.ITAD_HISTORY_CONCURRENCY || 4);
 
@@ -15,11 +19,8 @@ exports.handler = async () => {
         const liveSpecials = await loadSteamSpecials();
         const catalog = mergeCatalog(baseGames, liveSpecials);
 
-        const steamResults = await Promise.allSettled(catalog.map(loadSteamApp));
-        let merged = catalog.map((game, index) => {
-            const steam = steamResults[index].status === "fulfilled" ? steamResults[index].value : null;
-            return mergeSteam(game, steam);
-        });
+        const steamApps = await loadSteamApps(catalog);
+        let merged = catalog.map(game => mergeSteam(game, steamApps.get(String(game.appId))));
 
         let itadEnabled = false;
         if (ITAD_KEY) {
@@ -41,6 +42,20 @@ exports.handler = async () => {
 };
 
 async function loadSteamSpecials() {
+    const [featured, searchResults] = await Promise.all([
+        loadFeaturedSpecials(),
+        loadSearchSpecials()
+    ]);
+
+    const byAppId = new Map();
+    [...featured, ...searchResults].forEach(game => {
+        if (!byAppId.has(game.appId)) byAppId.set(game.appId, game);
+    });
+
+    return [...byAppId.values()].slice(0, STEAM_SPECIALS_LIMIT);
+}
+
+async function loadFeaturedSpecials() {
     try {
         const url = `https://store.steampowered.com/api/featuredcategories?cc=${STEAM_COUNTRY}&l=${STEAM_LANGUAGE}`;
         const data = await fetchJson(url, {
@@ -67,6 +82,78 @@ async function loadSteamSpecials() {
     }
 }
 
+async function loadSearchSpecials() {
+    const results = [];
+    let total = STEAM_SPECIALS_LIMIT;
+
+    for (let start = 0; start < total && results.length < STEAM_SPECIALS_LIMIT; start += STEAM_SEARCH_PAGE_SIZE) {
+        try {
+            const url = `https://store.steampowered.com/search/results/?query&start=${start}&count=${STEAM_SEARCH_PAGE_SIZE}&dynamic_data=&sort_by=_ASC&specials=1&infinite=1&cc=${STEAM_COUNTRY}&l=${STEAM_LANGUAGE}`;
+            const data = await fetchJson(url, {
+                headers: { "User-Agent": "steam-sale-picker/1.0" }
+            }, `Steam specials search ${start}`);
+            total = Math.min(Number(data?.total_count || STEAM_SPECIALS_LIMIT), STEAM_SPECIALS_LIMIT);
+            results.push(...parseSearchResults(data?.results_html || ""));
+        } catch {
+            break;
+        }
+    }
+
+    return results.slice(0, STEAM_SPECIALS_LIMIT);
+}
+
+function parseSearchResults(html) {
+    const games = [];
+    const rowPattern = /<a\b[^>]*data-ds-appid="(\d+)"[^>]*>([\s\S]*?)<\/a>/g;
+    let match;
+
+    while ((match = rowPattern.exec(html))) {
+        const appId = Number(match[1]);
+        const anchor = match[0];
+        const row = match[2];
+        const title = decodeHtml(readFirstMatch(row, /<span class="title">([\s\S]*?)<\/span>/));
+        const discount = Number(readFirstMatch(row, /<div class="discount_pct">-?(\d+)%<\/div>/) || 0);
+        const currentPrice = readSteamSearchPrice(anchor);
+        if (!appId || !title || discount <= 0) continue;
+
+        games.push({
+            appId,
+            koreanTitle: title,
+            title,
+            tags: ["Steam 할인", "자동 수집"],
+            genre: "Steam 할인",
+            mode: ["싱글"],
+            spec: "미분류",
+            short: "Steam 할인 검색 결과에서 자동으로 가져온 게임입니다.",
+            currentPrice,
+            discount,
+            currency: "KRW",
+            source: "steam-search"
+        });
+    }
+
+    return games;
+}
+
+function readFirstMatch(text, pattern) {
+    const match = pattern.exec(text);
+    return match ? match[1].replace(/<[^>]+>/g, "").trim() : "";
+}
+
+function decodeHtml(value) {
+    return String(value || "")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, "\"")
+        .replace(/&#39;/g, "'");
+}
+
+function readSteamSearchPrice(anchorHtml) {
+    const amount = Number(readFirstMatch(anchorHtml, /data-price-final="(\d+)"/));
+    return Number.isFinite(amount) && amount > 0 ? Math.round(amount / 100) : null;
+}
+
 function mergeCatalog(baseGames, liveSpecials) {
     const byAppId = new Map();
     for (const game of baseGames) {
@@ -78,14 +165,39 @@ function mergeCatalog(baseGames, liveSpecials) {
     return [...byAppId.values()];
 }
 
-async function loadSteamApp(game) {
-    const url = `https://store.steampowered.com/api/appdetails?appids=${game.appId}&cc=${STEAM_COUNTRY}&l=${STEAM_LANGUAGE}`;
+async function loadSteamApps(games) {
+    const appIds = [...new Set(games.map(game => game.appId).filter(Boolean))];
+    const chunks = [];
+    for (let index = 0; index < appIds.length; index += STEAM_APPDETAILS_BATCH_SIZE) {
+        chunks.push(appIds.slice(index, index + STEAM_APPDETAILS_BATCH_SIZE));
+    }
+
+    const appMap = new Map();
+    for (let index = 0; index < chunks.length; index += STEAM_APPDETAILS_CONCURRENCY) {
+        const batch = chunks.slice(index, index + STEAM_APPDETAILS_CONCURRENCY);
+        const results = await Promise.allSettled(batch.map(loadSteamAppBatch));
+        results.forEach(result => {
+            if (result.status !== "fulfilled") return;
+            result.value.forEach((value, key) => appMap.set(key, value));
+        });
+    }
+
+    return appMap;
+}
+
+async function loadSteamAppBatch(appIds) {
+    const url = `https://store.steampowered.com/api/appdetails?appids=${appIds.join(",")}&cc=${STEAM_COUNTRY}&l=${STEAM_LANGUAGE}`;
     const data = await fetchJson(url, {
         headers: { "User-Agent": "steam-sale-picker/1.0" }
-    }, `Steam ${game.appId}`);
-    const appData = data?.[game.appId]?.data;
-    if (!data?.[game.appId]?.success || !appData) throw new Error(`Steam appdetails failed ${game.appId}`);
-    return appData;
+    }, `Steam appdetails ${appIds[0]}`);
+    const map = new Map();
+
+    appIds.forEach(appId => {
+        const appData = data?.[appId]?.data;
+        if (data?.[appId]?.success && appData) map.set(String(appId), appData);
+    });
+
+    return map;
 }
 
 function mergeSteam(game, steam) {
@@ -93,11 +205,11 @@ function mergeSteam(game, steam) {
         return {
             ...game,
             title: game.title || `Steam App ${game.appId}`,
-            currentPrice: null,
-            normalPrice: null,
-            discount: 0,
-            currency: "KRW",
-            saleEnds: null,
+            currentPrice: game.currentPrice ?? null,
+            normalPrice: game.normalPrice ?? null,
+            discount: game.discount || 0,
+            currency: game.currency || "KRW",
+            saleEnds: game.saleEnds || null,
             priceSynced: false
         };
     }
@@ -139,7 +251,7 @@ async function attachItadData(games) {
         .map(game => game.itadId))];
 
     const [lows, histories] = await Promise.all([
-        postItad("https://api.isthereanydeal.com/games/storelow/v2", ids, `country=${ITAD_COUNTRY}&shops=${STEAM_SHOP_ID}`),
+        postItadBatched("https://api.isthereanydeal.com/games/storelow/v2", ids, `country=${ITAD_COUNTRY}&shops=${STEAM_SHOP_ID}`),
         loadHistories(historyIds)
     ]);
 
@@ -181,16 +293,35 @@ async function postItad(endpoint, body, query = "") {
     }
 }
 
+async function postItadBatched(endpoint, body, query = "") {
+    const results = [];
+    for (let index = 0; index < body.length; index += ITAD_BATCH_SIZE) {
+        const batch = body.slice(index, index + ITAD_BATCH_SIZE);
+        const data = await postItad(endpoint, batch, query);
+        if (Array.isArray(data)) results.push(...data);
+    }
+    return results;
+}
+
 async function lookupItadIds(games) {
     try {
         const appIds = games.map(game => `app/${game.appId}`);
         const url = `https://api.isthereanydeal.com/lookup/id/shop/${STEAM_SHOP_ID}/v1?key=${encodeURIComponent(ITAD_KEY)}`;
-        const data = await fetchJson(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(appIds)
-        }, "ITAD Steam app lookup");
-        return new Map(Object.entries(data || {}).map(([shopGameId, itadId]) => [shopGameId.replace(/^app\//, ""), itadId]));
+        const lookup = new Map();
+
+        for (let index = 0; index < appIds.length; index += ITAD_BATCH_SIZE) {
+            const batch = appIds.slice(index, index + ITAD_BATCH_SIZE);
+            const data = await fetchJson(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(batch)
+            }, "ITAD Steam app lookup");
+            Object.entries(data || {}).forEach(([shopGameId, itadId]) => {
+                lookup.set(shopGameId.replace(/^app\//, ""), itadId);
+            });
+        }
+
+        return lookup;
     } catch {
         return new Map();
     }
