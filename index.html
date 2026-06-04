@@ -192,69 +192,6 @@
                 </div>
             </section>
 
-            <section class="pipeline-section" id="guide">
-                <div class="pipeline-header">
-                    <span class="section-eyebrow">데이터 연동</span>
-                    <h2 class="section-title">데이터 흐름 구조</h2>
-                </div>
-
-                <div class="pipeline-steps">
-                    <div class="pipeline-step">
-                        <div class="step-num">01</div>
-                        <div class="step-body">
-                            <h3 class="step-title">Steam 할인 목록 수집</h3>
-                            <p class="step-desc">
-                                현재 할인 목록을 자동 수집하고 큐레이션 데이터와 병합합니다.
-                            </p>
-                            <span class="step-tag">Steam Store API</span>
-                        </div>
-                    </div>
-
-                    <div class="pipeline-arrow" aria-hidden="true">→</div>
-
-                    <div class="pipeline-step">
-                        <div class="step-num">02</div>
-                        <div class="step-body">
-                            <h3 class="step-title">가격 동기화</h3>
-                            <p class="step-desc">
-                                Steam Store 데이터로 현재가, 정가, 할인율, 종료일을 갱신합니다.
-                            </p>
-                            <span class="step-tag">실시간 업데이트</span>
-                        </div>
-                    </div>
-
-                    <div class="pipeline-arrow" aria-hidden="true">→</div>
-
-                    <div class="pipeline-step">
-                        <div class="step-num">03</div>
-                        <div class="step-body">
-                            <h3 class="step-title">가격 이력 추가</h3>
-                            <p class="step-desc">
-                                역대 최저가와 최근 가격 변동을 함께 확인할 수 있게 구성했습니다.
-                            </p>
-                            <span class="step-tag">IsThereAnyDeal API</span>
-                        </div>
-                    </div>
-
-                    <div class="pipeline-arrow" aria-hidden="true">→</div>
-
-                    <div class="pipeline-step step-fallback">
-                        <div class="step-num">↻</div>
-                        <div class="step-body">
-                            <h3 class="step-title">장애 대응</h3>
-                            <p class="step-desc">
-                                API 실패 시 샘플 데이터로 전환해 화면이 비지 않게 유지합니다.
-                            </p>
-                            <span class="step-tag step-tag-amber">Fallback</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pipeline-footer">
-                    <span class="footer-dot"></span>
-                    Netlify Functions 기반 서버리스 프록시 &nbsp;·&nbsp; 1시간 캐시
-                </div>
-            </section>
         </main>
     </div>
 
@@ -271,6 +208,6 @@
         <p>정적 프론트엔드 + Netlify Functions + 외부 가격 API</p>
     </footer>
 
-    <script src="main.js?v=20260529-2"></script>
+    <script src="main.js?v=20260605-1"></script>
 </body>
 </html>

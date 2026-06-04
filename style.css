@@ -808,8 +808,7 @@ h1 span {
     font-size: 15px;
 }
 
-.score-section,
-.pipeline-section {
+.score-section {
     margin-top: 28px;
     margin-bottom: 32px;
     border: .5px solid rgba(100, 160, 220, .12);
@@ -819,8 +818,7 @@ h1 span {
     box-shadow: var(--shadow);
 }
 
-.score-header,
-.pipeline-header {
+.score-header {
     margin-bottom: 24px;
 }
 
@@ -928,121 +926,6 @@ h1 span {
     font-weight: 300;
 }
 
-.pipeline-steps {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    gap: 0;
-}
-
-.pipeline-step {
-    flex: 1;
-    min-width: 180px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    border: .5px solid rgba(100, 160, 220, .15);
-    border-radius: 10px;
-    padding: 20px;
-    background: #1b2838;
-    transition: border-color 200ms;
-}
-
-.pipeline-step:hover {
-    border-color: rgba(74, 158, 221, .35);
-}
-
-.pipeline-step.step-fallback {
-    border-color: rgba(240, 165, 0, .2);
-}
-
-.pipeline-step.step-fallback:hover {
-    border-color: rgba(240, 165, 0, .4);
-}
-
-.pipeline-step.step-fallback .step-num {
-    border-color: rgba(240, 165, 0, .25);
-    background: rgba(240, 165, 0, .1);
-    color: #f0a500;
-}
-
-.step-num {
-    align-self: flex-start;
-    display: inline-block;
-    border: .5px solid rgba(74, 158, 221, .25);
-    border-radius: 6px;
-    padding: 4px 10px;
-    background: rgba(74, 158, 221, .1);
-    color: #4a9edd;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.step-title {
-    margin: 0;
-    color: #c7d5e0;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.step-desc {
-    flex: 1;
-    margin: 0;
-    color: #7a9ab0;
-    font-size: 12px;
-    line-height: 1.55;
-}
-
-.step-tag {
-    align-self: flex-start;
-    display: inline-block;
-    border: .5px solid rgba(74, 158, 221, .2);
-    border-radius: 4px;
-    padding: 2px 8px;
-    background: rgba(74, 158, 221, .1);
-    color: #4a9edd;
-    font-size: 10px;
-    font-weight: 500;
-}
-
-.step-tag-amber {
-    border-color: rgba(240, 165, 0, .2);
-    background: rgba(240, 165, 0, .1);
-    color: #f0a500;
-}
-
-.pipeline-arrow {
-    flex-shrink: 0;
-    align-self: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 6px;
-    color: rgba(100, 160, 220, .3);
-    font-size: 16px;
-}
-
-.pipeline-footer {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 16px;
-    padding-top: 14px;
-    border-top: .5px solid rgba(100, 160, 220, .1);
-    color: #455a6e;
-    font-size: 11px;
-}
-
-.footer-dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #a4d007;
-    animation: pulse 2s infinite;
-}
-
 .empty {
     display: none;
     padding: 42px;
@@ -1105,6 +988,73 @@ h1 span {
 
 .modal-actions {
     margin-top: 18px;
+}
+
+.history-chart {
+    margin: 10px 0 14px;
+    border: 1px solid var(--border-default);
+    border-radius: 10px;
+    padding: 14px;
+    background: rgba(7, 13, 24, .74);
+}
+
+.chart-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.chart-head strong {
+    color: var(--accent-blue);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 16px;
+}
+
+.history-chart svg {
+    display: block;
+    width: 100%;
+    height: 180px;
+}
+
+.chart-grid {
+    stroke: rgba(126, 168, 205, .18);
+    stroke-width: 1;
+}
+
+.chart-fill {
+    fill: rgba(74, 158, 221, .16);
+}
+
+.chart-line {
+    fill: none;
+    stroke: var(--accent-blue);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 4;
+}
+
+.chart-dot {
+    fill: var(--accent-green);
+    stroke: var(--bg-depth-0);
+    stroke-width: 2;
+}
+
+.chart-label {
+    fill: var(--text-muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+}
+
+.chart-label-top {
+    fill: var(--text-secondary);
+}
+
+.chart-label-end {
+    text-anchor: end;
 }
 
 .history-list {

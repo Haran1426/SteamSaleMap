@@ -320,6 +320,7 @@ function openModal(appId) {
                 <div class="meta-box"><span>판단</span><strong>${advice.text}</strong></div>
             </div>
             <h3>가격 이력</h3>
+            ${renderPriceChart(game)}
             <div class="history-list">
                 ${renderPriceHistory(game)}
             </div>
@@ -345,6 +346,85 @@ function renderPriceHistory(game) {
     }
 
     return "<p class='desc'>이 게임은 아직 표시할 가격 이력이 충분하지 않습니다. 현재 추천 점수는 실시간 Steam 가격, 할인율, 종료일을 기준으로 계산됩니다.</p>";
+}
+
+function renderPriceChart(game) {
+    const points = buildChartPoints(game);
+    if (points.length < 2) {
+        return "";
+    }
+
+    const width = 640;
+    const height = 180;
+    const padding = { top: 18, right: 20, bottom: 28, left: 20 };
+    const prices = points.map(point => point.price);
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    const range = Math.max(1, max - min);
+    const xStep = points.length > 1 ? (width - padding.left - padding.right) / (points.length - 1) : 0;
+    const coords = points.map((point, index) => {
+        const x = padding.left + index * xStep;
+        const y = padding.top + (1 - ((point.price - min) / range)) * (height - padding.top - padding.bottom);
+        return { ...point, x, y };
+    });
+    const line = coords.map(point => `${point.x.toFixed(1)},${point.y.toFixed(1)}`).join(" ");
+    const fill = `${padding.left},${height - padding.bottom} ${line} ${width - padding.right},${height - padding.bottom}`;
+    const first = coords[0];
+    const last = coords[coords.length - 1];
+
+    return `
+        <div class="history-chart" aria-label="가격 이력 차트">
+            <div class="chart-head">
+                <span>${escapeHtml(first.label)}</span>
+                <strong>${formatPrice(last.price, last.currency)}</strong>
+            </div>
+            <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="최근 가격 변동 라인 차트">
+                <line class="chart-grid" x1="${padding.left}" y1="${padding.top}" x2="${width - padding.right}" y2="${padding.top}"></line>
+                <line class="chart-grid" x1="${padding.left}" y1="${height - padding.bottom}" x2="${width - padding.right}" y2="${height - padding.bottom}"></line>
+                <polygon class="chart-fill" points="${fill}"></polygon>
+                <polyline class="chart-line" points="${line}"></polyline>
+                ${coords.map(point => `<circle class="chart-dot" cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="4"><title>${escapeHtml(point.label)} · ${formatPrice(point.price, point.currency)}</title></circle>`).join("")}
+                <text class="chart-label chart-label-top" x="${padding.left}" y="14">${formatPrice(max, last.currency)}</text>
+                <text class="chart-label" x="${padding.left}" y="${height - 6}">${formatPrice(min, last.currency)}</text>
+                <text class="chart-label chart-label-end" x="${width - padding.right}" y="${height - 6}">${escapeHtml(last.label)}</text>
+            </svg>
+        </div>
+    `;
+}
+
+function buildChartPoints(game) {
+    const history = (game.priceHistory || [])
+        .filter(item => Number.isFinite(item.price))
+        .map(item => ({
+            label: item.label || formatDate(item.timestamp),
+            timestamp: item.timestamp ? new Date(item.timestamp).getTime() : 0,
+            price: item.price,
+            currency: item.currency || game.currency || "KRW"
+        }))
+        .sort((a, b) => a.timestamp - b.timestamp);
+
+    if (history.length >= 2) return history;
+
+    const fallback = [];
+    if (Number.isFinite(game.historicalLow)) {
+        fallback.push({
+            label: "역대 최저가",
+            timestamp: 0,
+            price: game.historicalLow,
+            currency: game.historicalLowCurrency || game.currency || "KRW"
+        });
+    }
+
+    if (Number.isFinite(game.currentPrice)) {
+        fallback.push({
+            label: "현재가",
+            timestamp: 1,
+            price: game.currentPrice,
+            currency: game.currency || "KRW"
+        });
+    }
+
+    return fallback;
 }
 
 function closeModal() {
