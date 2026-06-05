@@ -321,6 +321,10 @@ function openModal(appId) {
             </div>
             <h3>가격 이력</h3>
             ${renderPriceChart(game)}
+            <div class="history-list-head">
+                <span>할인 기록</span>
+                <small>최근 가격 변동</small>
+            </div>
             <div class="history-list">
                 ${renderPriceHistory(game)}
             </div>
@@ -335,9 +339,10 @@ function openModal(appId) {
 }
 
 function renderPriceHistory(game) {
-    if ((game.priceHistory || []).length) {
-        return game.priceHistory
-            .map(item => `<div class="history-item"><span>${escapeHtml(item.label || formatDate(item.timestamp))}</span><strong>-${item.cut}% · ${formatPrice(item.price, item.currency)}</strong></div>`)
+    const rows = buildHistoryRows(game);
+    if (rows.length) {
+        return rows
+            .map(item => `<div class="history-item"><span>${escapeHtml(item.label)}</span><strong>-${item.cut}% · ${formatPrice(item.price, item.currency)}</strong></div>`)
             .join("");
     }
 
@@ -348,6 +353,40 @@ function renderPriceHistory(game) {
     return "<p class='desc'>이 게임은 아직 표시할 가격 이력이 충분하지 않습니다. 현재 추천 점수는 실시간 Steam 가격, 할인율, 종료일을 기준으로 계산됩니다.</p>";
 }
 
+function buildHistoryRows(game) {
+    const rows = (game.priceHistory || [])
+        .filter(item => Number.isFinite(item.price))
+        .map(item => ({
+            label: item.label || formatDate(item.timestamp),
+            price: item.price,
+            currency: item.currency || game.currency || "KRW",
+            cut: item.cut || 0
+        }));
+
+    if (rows.length) return rows;
+
+    const fallback = [];
+    if (Number.isFinite(game.historicalLow)) {
+        fallback.push({
+            label: "역대 최저가",
+            price: game.historicalLow,
+            currency: game.historicalLowCurrency || game.currency || "KRW",
+            cut: Number.isFinite(game.discount) ? game.discount : 0
+        });
+    }
+
+    if (Number.isFinite(game.currentPrice)) {
+        fallback.push({
+            label: "현재 Steam 가격",
+            price: game.currentPrice,
+            currency: game.currency || "KRW",
+            cut: game.discount || 0
+        });
+    }
+
+    return fallback;
+}
+
 function renderPriceChart(game) {
     const points = buildChartPoints(game);
     if (points.length < 2) {
@@ -355,8 +394,8 @@ function renderPriceChart(game) {
     }
 
     const width = 640;
-    const height = 180;
-    const padding = { top: 18, right: 20, bottom: 28, left: 20 };
+    const height = 140;
+    const padding = { top: 18, right: 20, bottom: 24, left: 20 };
     const prices = points.map(point => point.price);
     const min = Math.min(...prices);
     const max = Math.max(...prices);
