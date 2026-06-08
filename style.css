@@ -13,9 +13,9 @@
     --bg-green: #2a3d0f;
     --accent-amber: #f0a500;
     --accent-red: #e05c5c;
-    --text-primary: #c7d5e0;
-    --text-secondary: #7a9ab0;
-    --text-muted: #455a6e;
+    --text-primary: #edf4fb;
+    --text-secondary: #b6c8d8;
+    --text-muted: #8ea7bc;
     --border-default: rgba(100, 160, 220, .12);
     --border-hover: rgba(100, 160, 220, .28);
     --shadow: 0 18px 42px rgba(0, 0, 0, .32);
@@ -415,6 +415,7 @@ h1 span {
     justify-content: space-between;
     color: var(--text-secondary);
     font-size: 13px;
+    font-weight: 800;
 }
 
 .hero-card-top strong,
@@ -424,7 +425,8 @@ h1 span {
 }
 
 .hero-card-top strong {
-    color: var(--accent-blue);
+    color: #8fd0ff;
+    font-size: 15px;
 }
 
 .score-row {
@@ -440,11 +442,19 @@ h1 span {
     background: var(--bg-depth-0);
 }
 
+.score-row .label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 900;
+    text-transform: none;
+}
+
 .score-row strong {
     display: block;
     margin-top: 6px;
-    color: var(--accent-green);
-    font-size: 24px;
+    color: #b6f22a;
+    font-size: 26px;
+    line-height: 1.1;
 }
 
 .hero-note,
@@ -480,15 +490,16 @@ h1 span {
 
 .summary-card span {
     color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 900;
 }
 
 .summary-card strong {
     display: block;
     margin-top: 8px;
-    color: var(--accent-green);
+    color: #b6f22a;
     font-size: 30px;
+    line-height: 1.1;
 }
 
 .toolbar {
@@ -508,8 +519,9 @@ h1 span {
 .rule-panel h2 {
     margin: 0;
     color: var(--text-primary);
-    font-family: "Orbitron", "Noto Sans KR", sans-serif;
+    font-family: "Noto Sans KR", sans-serif;
     font-size: 24px;
+    font-weight: 900;
     letter-spacing: 0;
 }
 
@@ -611,9 +623,10 @@ h1 span {
     margin: 0 0 4px;
     overflow: hidden;
     color: var(--text-primary);
-    font-size: 18px;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 17px;
     font-weight: 900;
-    line-height: 1.35;
+    line-height: 1.32;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 }
@@ -621,8 +634,9 @@ h1 span {
 .game-title-row small {
     display: block;
     overflow: hidden;
-    color: var(--text-muted);
-    font-size: 12px;
+    color: var(--text-secondary);
+    font-size: 12.5px;
+    font-weight: 700;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
@@ -646,7 +660,8 @@ h1 span {
     min-height: 44px;
     margin: 10px 0 12px;
     color: var(--text-secondary);
-    font-size: 13px;
+    font-size: 13.5px;
+    font-weight: 500;
     line-height: 1.55;
 }
 
