@@ -65,13 +65,15 @@ API_TIMEOUT_MS=8000
 
 ## Kakao AdFit 설정
 
-`index.html`의 각 `.adfit-slot` 안에 AdFit에서 발급된 광고 스크립트를 그대로 넣습니다.
+`index.html`의 각 `.adfit-slot` 안에 AdFit에서 발급된 `<ins>` 태그를 넣고, AdFit SDK 스크립트는 두 슬롯이 모두 선언된 뒤 페이지 하단에서 한 번 로드합니다.
 
 ```html
 <ins class="kakao_ad_area" style="display:none;width:100%;"
     data-ad-unit="DAN-발급받은광고단위ID"
     data-ad-width="250"
     data-ad-height="250"></ins>
+
+<!-- 모든 광고 슬롯 선언 뒤 페이지 하단에서 한 번만 로드 -->
 <script async type="text/javascript" src="https://t1.kakaocdn.net/kas/static/ba.min.js"></script>
 ```
 
