@@ -38,10 +38,9 @@ function setupKakaoAdFit() {
     const config = window.KAKAO_ADFIT;
     if (!config || !config.slots) return;
 
-    let hasRenderableAd = false;
-
     document.querySelectorAll("[data-adfit-slot]").forEach(container => {
-        const slot = config.slots[container.dataset.adfitSlot];
+        const slotName = container.dataset.adfitSlot;
+        const slot = config.slots[slotName];
         const unit = typeof slot?.unit === "string" ? slot.unit.trim() : "";
         const width = Number(slot?.width);
         const height = Number(slot?.height);
@@ -68,20 +67,16 @@ function setupKakaoAdFit() {
         ad.dataset.adWidth = String(width);
         ad.dataset.adHeight = String(height);
 
-        container.replaceChildren(ad);
+        const script = document.createElement("script");
+        script.id = `kakaoAdFitScript-${slotName}`;
+        script.async = true;
+        script.type = "text/javascript";
+        script.src = "https://t1.kakaocdn.net/kas/static/ba.min.js";
+
+        container.replaceChildren(ad, script);
         container.style.setProperty("--adfit-width", `${width}px`);
         container.style.setProperty("--adfit-height", `${height}px`);
-        hasRenderableAd = true;
     });
-
-    if (!hasRenderableAd || document.getElementById("kakaoAdFitScript")) return;
-
-    const script = document.createElement("script");
-    script.id = "kakaoAdFitScript";
-    script.async = true;
-    script.type = "text/javascript";
-    script.src = "https://t1.kakaocdn.net/kas/static/ba.min.js";
-    document.body.appendChild(script);
 }
 
 function renderAdFitPlaceholder(container, slot, message) {
