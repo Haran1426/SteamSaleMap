@@ -153,7 +153,7 @@ a {
 
 .app-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 260px;
+    grid-template-columns: minmax(0, 1fr) 320px;
     min-height: calc(100vh - 68px);
 }
 
@@ -193,6 +193,7 @@ a {
 
 .adfit-panel-sidebar {
     display: grid;
+    flex: 0 0 auto;
     gap: 10px;
     justify-items: center;
     border: 1px solid var(--border-default);
@@ -203,6 +204,9 @@ a {
 
 .adfit-panel-main {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     justify-content: center;
     margin: 0 0 18px;
     border: 1px solid var(--border-default);
@@ -1176,7 +1180,7 @@ h1 span {
 }
 
 .footer {
-    padding: 28px 292px 46px 32px;
+    padding: 28px 352px 46px 32px;
     background: var(--bg-depth-2);
     border-top: 1px solid var(--border-default);
     font-size: 13px;
