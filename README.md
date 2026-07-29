@@ -65,24 +65,14 @@ API_TIMEOUT_MS=8000
 
 ## Kakao AdFit 설정
 
-`index.html` 하단의 `window.KAKAO_ADFIT` 설정에서 AdFit 광고 단위 ID를 넣으면 광고 슬롯이 렌더링됩니다. 값이 비어 있으면 광고 요청을 보내지 않고 슬롯도 숨깁니다.
+`index.html`의 각 `.adfit-slot` 안에 AdFit에서 발급된 광고 스크립트를 그대로 넣습니다.
 
 ```html
-window.KAKAO_ADFIT = {
-    slots: {
-        sidebar: {
-            unit: "DAN-발급받은광고단위ID",
-            width: 250,
-            height: 250
-        },
-        main: {
-            unit: "DAN-발급받은광고단위ID",
-            width: 728,
-            height: 90,
-            minViewport: 760
-        }
-    }
-};
+<ins class="kakao_ad_area" style="display:none;width:100%;"
+    data-ad-unit="DAN-발급받은광고단위ID"
+    data-ad-width="250"
+    data-ad-height="250"></ins>
+<script async type="text/javascript" src="https://t1.kakaocdn.net/kas/static/ba.min.js"></script>
 ```
 
 AdFit에서 광고 단위 생성 시 발급된 `data-ad-unit`, `data-ad-width`, `data-ad-height` 값을 그대로 맞춰 넣어야 합니다. 모바일 전용 배너가 필요하면 AdFit에서 `320x50` 또는 `320x100` 광고 단위를 별도로 만든 뒤 슬롯을 추가하는 방식이 안전합니다.

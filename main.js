@@ -29,74 +29,8 @@ const quickTags = ["all", "협동", "저사양", "로그라이크", "생존", "�
 init();
 
 async function init() {
-    setupKakaoAdFit();
     setupEvents();
     await loadLiveGames();
-}
-
-function setupKakaoAdFit() {
-    const config = window.KAKAO_ADFIT;
-    if (!config || !config.slots) return;
-
-    document.querySelectorAll("[data-adfit-slot]").forEach(container => {
-        const slotName = container.dataset.adfitSlot;
-        const slot = config.slots[slotName];
-        const unit = typeof slot?.unit === "string" ? slot.unit.trim() : "";
-        const width = Number(slot?.width);
-        const height = Number(slot?.height);
-        const minViewport = Number(slot?.minViewport);
-        const maxViewport = Number(slot?.maxViewport);
-        const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-
-        if (!unit || !Number.isFinite(width) || !Number.isFinite(height)) {
-            renderAdFitPlaceholder(container, slot, "AdFit 광고 단위 ID를 입력하면 이 위치에 광고가 표시됩니다.");
-            return;
-        }
-
-        if ((Number.isFinite(minViewport) && viewportWidth < minViewport)
-            || (Number.isFinite(maxViewport) && viewportWidth > maxViewport)) {
-            container.closest(".adfit-panel")?.classList.add("is-empty");
-            return;
-        }
-
-        const ad = document.createElement("ins");
-        ad.className = "kakao_ad_area";
-        ad.style.display = "none";
-        ad.style.width = "100%";
-        ad.dataset.adUnit = unit;
-        ad.dataset.adWidth = String(width);
-        ad.dataset.adHeight = String(height);
-
-        const script = document.createElement("script");
-        script.id = `kakaoAdFitScript-${slotName}`;
-        script.async = true;
-        script.type = "text/javascript";
-        script.src = "https://t1.kakaocdn.net/kas/static/ba.min.js";
-
-        container.replaceChildren(ad, script);
-        container.style.setProperty("--adfit-width", `${width}px`);
-        container.style.setProperty("--adfit-height", `${height}px`);
-    });
-}
-
-function renderAdFitPlaceholder(container, slot, message) {
-    if (!window.KAKAO_ADFIT?.showPlaceholders) {
-        container.closest(".adfit-panel")?.classList.add("is-empty");
-        return;
-    }
-
-    const width = Number(slot?.width);
-    const height = Number(slot?.height);
-    if (Number.isFinite(width)) container.style.setProperty("--adfit-width", `${width}px`);
-    if (Number.isFinite(height)) container.style.setProperty("--adfit-height", `${height}px`);
-
-    container.innerHTML = `
-        <div class="adfit-placeholder">
-            <strong>AdFit 광고 영역</strong>
-            <span>${Number.isFinite(width) && Number.isFinite(height) ? `${width}×${height}` : "광고 슬롯"}</span>
-            <small>${message}</small>
-        </div>
-    `;
 }
 
 async function loadLiveGames() {
