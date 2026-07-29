@@ -78,7 +78,9 @@
                     <ins class="kakao_ad_area" style="display:none;width:100%;"
                         data-ad-unit="DAN-ErAXtQW0UPm2vpVY"
                         data-ad-width="250"
-                        data-ad-height="250"></ins>
+                        data-ad-height="250"
+                        data-ad-onload="handleAdFitLoad"
+                        data-ad-onfail="handleAdFitFail"></ins>
                 </div>
             </section>
         </aside>
@@ -128,7 +130,9 @@
                     <ins class="kakao_ad_area" style="display:none;width:100%;"
                         data-ad-unit="DAN-psR0iS5KtoqqQJY3d"
                         data-ad-width="728"
-                        data-ad-height="90"></ins>
+                        data-ad-height="90"
+                        data-ad-onload="handleAdFitLoad"
+                        data-ad-onfail="handleAdFitFail"></ins>
                 </div>
             </section>
 
@@ -228,6 +232,15 @@
         <p>정적 프론트엔드 + Netlify Functions + 외부 가격 API</p>
     </footer>
 
+    <script>
+        window.handleAdFitLoad = function (adElement) {
+            adElement.closest(".adfit-panel")?.classList.remove("is-empty");
+        };
+
+        window.handleAdFitFail = function (adElement) {
+            adElement.closest(".adfit-panel")?.classList.add("is-empty");
+        };
+    </script>
     <script async type="text/javascript" src="https://t1.kakaocdn.net/kas/static/ba.min.js"></script>
     <script src="main.js?v=20260729-4"></script>
 </body>
