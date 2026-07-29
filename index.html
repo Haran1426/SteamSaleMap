@@ -71,6 +71,11 @@
             </section>
 
             <button class="btn export" id="exportBtn" type="button">CSV 내보내기</button>
+
+            <section class="adfit-panel adfit-panel-sidebar" aria-label="광고">
+                <p class="panel-label">AD</p>
+                <div class="adfit-slot" data-adfit-slot="sidebar"></div>
+            </section>
         </aside>
 
         <main class="bridge-main">
@@ -110,6 +115,10 @@
                 <article class="summary-card"><span>현재 할인</span><strong id="saleCount">0</strong></article>
                 <article class="summary-card"><span>70% 이상</span><strong id="bigSaleCount">0</strong></article>
                 <article class="summary-card"><span>협동 게임</span><strong id="coopCount">0</strong></article>
+            </section>
+
+            <section class="adfit-panel adfit-panel-main" aria-label="광고">
+                <div class="adfit-slot" data-adfit-slot="main"></div>
             </section>
 
             <section class="toolbar" id="deals">
@@ -208,6 +217,24 @@
         <p>정적 프론트엔드 + Netlify Functions + 외부 가격 API</p>
     </footer>
 
-    <script src="main.js?v=20260605-2"></script>
+    <script>
+        window.KAKAO_ADFIT = {
+            showPlaceholders: true,
+            slots: {
+                sidebar: {
+                    unit: "DAN-ErAXtQW0UPm2vpVY",
+                    width: 250,
+                    height: 250
+                },
+                main: {
+                    unit: "DAN-psR0iS5KtoqqJY3d",
+                    width: 728,
+                    height: 90,
+                    minViewport: 760
+                }
+            }
+        };
+    </script>
+    <script src="main.js?v=20260729-1"></script>
 </body>
 </html>

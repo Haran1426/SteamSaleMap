@@ -183,6 +183,75 @@ a {
     flex: 1;
 }
 
+.adfit-panel {
+    overflow: hidden;
+}
+
+.adfit-panel.is-empty {
+    display: none;
+}
+
+.adfit-panel-sidebar {
+    display: grid;
+    gap: 10px;
+    justify-items: center;
+    border: 1px solid var(--border-default);
+    border-radius: 10px;
+    padding: 14px;
+    background: rgba(10, 18, 32, .46);
+}
+
+.adfit-panel-main {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 18px;
+    border: 1px solid var(--border-default);
+    border-radius: 10px;
+    padding: 14px;
+    background: rgba(28, 42, 64, .74);
+    box-shadow: var(--shadow);
+}
+
+.adfit-slot {
+    width: min(100%, var(--adfit-width, 100%));
+    min-height: var(--adfit-height, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.adfit-placeholder {
+    width: 100%;
+    min-height: var(--adfit-height, 90px);
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 6px;
+    border: 1px dashed rgba(164, 208, 7, .36);
+    border-radius: 8px;
+    padding: 14px;
+    background: rgba(10, 18, 32, .54);
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.adfit-placeholder strong {
+    color: var(--accent-green);
+    font-size: 13px;
+}
+
+.adfit-placeholder span,
+.adfit-placeholder small {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+}
+
+.adfit-placeholder small {
+    max-width: 220px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
 .panel-label,
 .eyebrow,
 .label {
